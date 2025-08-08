@@ -1,0 +1,3244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><span data-lang="tr">Bilgi Dostum</span><span data-lang="en" class="hidden">Info Buddy</span></title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --color-light-bg: #f0f8ff; /* Very light blue */
+            --color-light-gradient-mid: #e6f7ff;
+            --color-light-gradient-end: #d9f0ff;
+
+            --color-dashboard-light-bg: #e0f2f7; /* Muted light blue for dashboard */
+            --color-dashboard-light-gradient-mid: #d0eaf2;
+            --color-dashboard-light-gradient-end: #c0e0eb;
+
+            --color-dark-bg: #1a2a3a; /* Deep dark blue */
+            --color-dark-gradient-mid: #1f3040;
+            --color-dark-gradient-end: #243545;
+
+            --color-dashboard-dark-bg: #2a3a4a; /* Darker blue for dark mode dashboard */
+            --color-dashboard-dark-gradient-mid: #304050;
+            --color-dashboard-dark-gradient-end: #344555;
+
+            --color-text-light: #333;
+            --color-text-dark: #ecf0f1;
+
+            --color-header-light: #e0f2f7;
+            --color-header-dark: #1c2b3a;
+
+            --color-nav-light: #e0f2f7;
+            --color-nav-dark: #1c2b3a;
+
+            --color-button-light: #8ecae6; /* Standard light blue button */
+            --color-button-hover-light: #6aaddf;
+
+            --color-button-dark: #34495e; /* Standard dark button */
+            --color-button-hover-dark: #4a6a8a;
+
+            --color-accent-register-light: #76c7c0; /* Teal for register */
+            --color-accent-register-hover-light: #5bb3ac;
+            --color-accent-register-dark: #2ecc71; /* Green for register dark */
+            --color-accent-register-hover-dark: #27ae60;
+
+            --color-accent-translator-light: #a280b6; /* Purple for translator */
+            --color-accent-translator-hover-light: #8e6baa;
+            --color-accent-translator-dark: #9b59b6; /* Purple for translator dark */
+            --color-accent-translator-hover-dark: #8e44ad;
+
+            --color-accent-research-light: #ffc107; /* Amber for research */
+            --color-accent-research-hover-light: #e0a800;
+            --color-accent-research-dark: #ffeb3b; /* Yellow for research dark */
+            --color-accent-research-hover-dark: #fdd835;
+
+            --color-accent-citation-light: #4CAF50; /* Green for citation */
+            --color-accent-citation-hover-light: #45a049;
+            --color-accent-citation-dark: #66BB6A; /* Lighter green for dark mode */
+            --color-accent-citation-hover-dark: #81C784;
+
+            --color-accent-collaboration-light: #9C27B0; /* Purple for collaboration */
+            --color-accent-collaboration-hover-light: #8E24AA;
+            --color-accent-collaboration-dark: #BA68C8; /* Lighter purple for dark mode */
+            --color-accent-collaboration-hover-dark: #CE93D8;
+
+            --color-accent-academic-light: #2196F3; /* Blue for academic search */
+            --color-accent-academic-hover-light: #1976D2;
+            --color-accent-academic-dark: #64B5F6; /* Lighter blue for dark mode */
+            --color-accent-academic-hover-dark: #90CAF9;
+
+            --color-chat-user-light: #d9f0ff;
+            --color-chat-ai-light: #f0f8ff;
+            --color-chat-user-dark: #4a6a8a;
+            --color-chat-ai-dark: #3a5a7a;
+
+            --color-modal-bg-light: #ffffff;
+            --color-modal-bg-dark: #34495e;
+
+            --color-input-border-light: #ccc;
+            --color-input-border-dark: #5a7a9a;
+            --color-input-bg-dark: #4a6a8a;
+            --color-input-placeholder-dark: #bdc3c7;
+
+            --color-theme-toggle-light: #8ecae6;
+            --color-theme-toggle-dark: #5dade2;
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Nunito', sans-serif; /* Professional font: Nunito */
+            background: linear-gradient(45deg, var(--color-light-bg), var(--color-light-gradient-mid), var(--color-light-gradient-end)); /* Lighter and fresher gradient */
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevents horizontal scrolling */
+            transition: background-color 0.5s ease, color 0.5s ease; /* Background and text color transition */
+            color: var(--color-text-light); /* Default text color */
+        }
+
+        /* Dashboard active background color */
+        body.dashboard-active-bg {
+            background: linear-gradient(45deg, var(--color-dashboard-light-bg), var(--color-dashboard-light-gradient-mid), var(--color-dashboard-light-gradient-end)); /* Slightly darker blue/gray gradient */
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        /* Hidden/visible settings for language toggle */
+        [data-lang="en"] {
+            display: none;
+        }
+
+        body.english-mode [data-lang="tr"] {
+            display: none;
+        }
+
+        body.english-mode [data-lang="en"] {
+            display: block;
+        }
+
+        /* Main Container: Keeps side menu and main content side-by-side */
+        .container {
+            display: flex;
+            min-height: 100vh; /* Takes at least the full viewport height */
+        }
+
+        /* Navigation (Side Menu) Styles */
+        nav {
+            background-color: var(--color-nav-light); /* Very light blue/gray */
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Stacks buttons vertically */
+            gap: 15px; /* Spacing between buttons */
+            width: 250px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1); /* Lighter shadow */
+            transition: left 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; 
+            position: fixed;
+            top: 0;
+            left: -250px;
+            height: 100%;
+            z-index: 1001;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        nav.open {
+            left: 0;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Navigation Button Styles */
+        nav button, nav a {
+            padding: 12px 20px;
+            background-color: var(--color-button-light); /* Light blue tone */
+            border: none;
+            border-radius: 12px; /* More rounded corners */
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--color-text-light); /* Dark text color */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none; /* Removes underline for links */
+            display: block; /* Makes links take full width */
+            box-sizing: border-box; /* Includes padding in width */
+        }
+
+        nav button:hover, nav a:hover {
+            background-color: var(--color-button-hover-light); /* Darker light blue */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Main Content Area Styles */
+        #main-content {
+            flex-grow: 1;
+            display: block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+            overflow-y: auto;
+            text-align: center;
+            padding-bottom: 40px;
+            width: 100%;
+            margin-left: 0;
+        }
+        
+        #main-content.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Content Section Transition Effect */
+        .content {
+            transition: opacity 1.2s ease-in-out;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* Color Transition for Content Headings and Paragraphs */
+        .content h2, .content p {
+            transition: color 0.5s ease;
+            margin-bottom: 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--color-header-light); /* Very light blue/gray */
+            color: var(--color-text-light); /* Dark text color */
+            padding: 15px 20px;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* Lighter shadow */
+            flex-wrap: wrap;
+        }
+
+        .header-logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0;
+            color: #2c3e50; /* Dark logo color */
+            text-decoration: none;
+            padding-right: 20px;
+        }
+
+        /* Header Navigation Links */
+        .header-nav-links {
+            display: flex;
+            gap: 25px;
+            flex-grow: 1;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .header-nav-links button, .header-nav-links a {
+            background: none;
+            border: none;
+            color: #555; /* Softer link color */
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: color 0.3s ease, transform 0.2s ease;
+            text-decoration: none; /* Removes underline for links */
+        }
+
+        .header-nav-links button:hover, .header-nav-links a:hover {
+            color: #3498db; /* Blue hover */
+            transform: translateY(-2px);
+        }
+
+        #menu-toggle-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #333; /* Dark hamburger icon */
+            font-size: 28px;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: color 0.3s ease;
+        }
+
+        #menu-toggle-button:hover {
+            color: #555;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .auth-buttons button {
+            padding: 8px 15px;
+            background-color: #c1e7f0; /* Light blue */
+            color: #2c3e50;
+            border: none;
+            border-radius: 12px; /* More rounded corners */
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .auth-buttons #register-btn {
+            background-color: var(--color-accent-register-light); /* Soft green tone */
+            color: white;
+            font-weight: 600;
+        }
+
+        .auth-buttons #register-btn:hover {
+            background-color: var(--color-accent-register-hover-light);
+        }
+
+        .auth-buttons button:hover {
+            background-color: #a8dadc; /* Darker light blue */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* Input and Textarea Focus Styles */
+        textarea,
+        input[type="text"],
+        input[type="password"],
+        select {
+            border: 1px solid var(--color-input-border-light);
+            border-radius: 10px; /* More rounded corners */
+            padding: 10px 12px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            width: calc(100% - 24px);
+            max-width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        textarea:focus,
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* Lighter glow */
+        }
+
+        /* Hidden Class */
+        .hidden {
+            display: none;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--color-nav-light); /* Very light blue/gray */
+            color: var(--color-text-light); /* Dark text color */
+            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+        }
+        
+        /* Auth Modal Styles (Login/Register) */
+        #authModal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6); /* Lighter transparent black background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.95);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+
+        #authModal.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* Auth Box Styles */
+        #authBox {
+            background: var(--color-modal-bg-light);
+            padding: 30px 40px;
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* Lighter shadow */
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+            color: var(--color-text-light);
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        #authBox h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        #authBox input {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px; /* More rounded corners */
+            border: 1px solid #ddd;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        #authBox button {
+            padding: 12px 25px;
+            background-color: var(--color-button-light); /* Light blue tone */
+            border: none;
+            border-radius: 12px; /* More rounded corners */
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--color-text-light); /* Dark text color */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 16px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #authBox button:hover {
+            background-color: var(--color-button-hover-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        /* Auth Error Message Styles */
+        #authError {
+            color: #e74c3c;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+            font-size: 0.9em;
+        }
+
+        #authBox .toggle-auth-mode {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        #authBox .toggle-auth-mode a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        #authBox .toggle-auth-mode a:hover {
+            text-decoration: underline;
+            color: #2980b9;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none !important;
+            border: none !important;
+            color: #777 !important;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+        .close-modal-btn:hover {
+            color: #333 !important;
+        }
+
+        /* Custom Alert Modal Styles */
+        #customAlertModal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        #customAlertModal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #customAlertBox {
+            background: var(--color-modal-bg-light);
+            padding: 30px;
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            color: var(--color-text-light);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease-out;
+            box-sizing: border-box;
+        }
+
+        #customAlertModal.visible #customAlertBox {
+            transform: translateY(0);
+        }
+
+        #customAlertBox p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+
+        #customAlertBox button {
+            padding: 10px 25px;
+            background-color: var(--color-button-light); /* Light blue */
+            color: var(--color-text-light);
+            border: none;
+            border-radius: 10px; /* More rounded corners */
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        #customAlertBox button:hover {
+            background-color: var(--color-button-hover-light);
+        }
+        
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(45deg, var(--color-dark-bg), var(--color-dark-gradient-mid), var(--color-dark-gradient-end)); /* Dark gradient */
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: var(--color-text-dark); /* Light gray text */
+        }
+
+        body.dark-mode.dashboard-active-bg {
+            background: linear-gradient(45deg, var(--color-dashboard-dark-bg), var(--color-dashboard-dark-gradient-mid), var(--color-dashboard-dark-gradient-end)); /* Darker dashboard gradient in dark mode */
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        body.dark-mode header { background-color: var(--color-header-dark); }
+        body.dark-mode .header-logo { color: var(--color-text-dark); }
+        body.dark-mode .header-nav-links button, body.dark-mode .header-nav-links a { color: var(--color-text-dark); }
+        body.dark-mode .header-nav-links button:hover, body.dark-mode .header-nav-links a:hover { color: #5dade2; }
+        body.dark-mode nav { background-color: var(--color-nav-dark); }
+        body.dark-mode nav button, body.dark-mode nav a { background-color: var(--color-button-dark); color: var(--color-text-dark); }
+        body.dark-mode nav button:hover, body.dark-mode nav a:hover { 
+            background: linear-gradient(to bottom right, #4a6a8a, #5a7a9a); 
+            color: #fff; 
+            box-shadow: 0px 8px 20px rgba(236, 240, 241, 0.1);
+            transform: translateY(-3px);
+        }
+        body.dark-mode .auth-buttons button {
+            background-color: var(--color-button-dark);
+            color: var(--color-text-dark);
+            border-color: #4a6a8a;
+        }
+        body.dark-mode .auth-buttons #register-btn {
+            background-color: var(--color-accent-register-dark);
+            color: var(--color-header-dark);
+        }
+        body.dark-mode .auth-buttons #register-btn:hover {
+            background-color: var(--color-accent-register-hover-dark);
+        }
+        body.dark-mode .auth-buttons button:hover {
+            background-color: var(--color-button-hover-dark);
+            box-shadow: 0px 4px 10px rgba(255,255,255,0.1);
+        }
+        body.dark-mode footer { background-color: var(--color-nav-dark); }
+        body.dark-mode .content h2, body.dark-mode .content p { color: var(--color-text-dark); }
+        body.dark-mode textarea:focus,
+        body.dark-mode input[type="text"]:focus,
+        body.dark-mode input[type="password"]:focus,
+        body.dark-mode select:focus {
+            border-color: #5dade2;
+            box-shadow: 0 0 0 3px rgba(93, 173, 226, 0.3);
+        }
+        body.dark-mode #authBox {
+            background: var(--color-modal-bg-dark);
+            color: var(--color-text-dark);
+        }
+        body.dark-mode #authBox h2 {
+            color: var(--color-text-dark);
+        }
+        body.dark-mode #authBox input {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+        }
+        body.dark-mode #authBox input::placeholder {
+            color: var(--color-input-placeholder-dark);
+        }
+        body.dark-mode #authBox button {
+            background-color: var(--color-theme-toggle-dark);
+            color: var(--color-header-dark);
+        }
+        body.dark-mode #authBox button:hover {
+            background-color: var(--color-theme-toggle-dark); /* Keep the same color for hover in dark mode for auth modal */
+        }
+        body.dark-mode #authError {
+            color: #e74c3c;
+        }
+        body.dark-mode #authBox .toggle-auth-mode a {
+            color: #5dade2;
+        }
+        body.dark-mode #authBox .toggle-auth-mode a:hover {
+            color: #4a9ec9;
+        }
+        body.dark-mode .close-modal-btn {
+            color: #bdc3c7 !important;
+        }
+        body.dark-mode .close-modal-btn:hover {
+            color: var(--color-text-dark) !important;
+        }
+
+        /* AI Chat Box Styles */
+        #ai-chat-box {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            z-index: 999;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: fixed; /* Fixed position */
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+        }
+
+        #ai-chat-box.open {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Chat Messages Area Styles */
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #eee; /* Lighter line */
+        }
+
+        /* Chat Input Area Styles */
+        #chat-input {
+            padding: 10px;
+            border: none;
+            border-top: 1px solid #eee; /* Lighter line */
+            border-radius: 0 0 15px 15px; /* Only bottom corners rounded */
+        }
+
+        /* Chat Box Send Button Styles */
+        #ai-chat-box button {
+            padding: 10px;
+            border: none;
+            background-color: var(--color-button-light); /* Light blue color */
+            color: var(--color-text-light); /* Dark text color */
+            cursor: pointer;
+            border-radius: 0 0 15px 15px; /* Only bottom corners rounded */
+        }
+
+        /* User Message Styles */
+        .user-message {
+            text-align: right;
+            background-color: var(--color-chat-user-light); /* Very light blue */
+            padding: 8px;
+            border-radius: 12px; /* More rounded corners */
+            margin-bottom: 5px;
+            color: var(--color-text-light);
+        }
+
+        /* AI Message Styles */
+        .ai-message {
+            text-align: left;
+            background-color: var(--color-chat-ai-light); /* Very light gray/blue */
+            padding: 8px;
+            border-radius: 12px; /* More rounded corners */
+            margin-bottom: 5px;
+            color: var(--color-text-light);
+        }
+
+        /* Dark mode chat box */
+        body.dark-mode #ai-chat-box {
+            background-color: #2c3e50;
+            border-color: #34495e;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+        body.dark-mode #chat-messages {
+            border-color: #34495e;
+        }
+        body.dark-mode #chat-input {
+            background-color: #34495e;
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+        }
+        body.dark-mode #chat-input::placeholder {
+            color: var(--color-input-placeholder-dark);
+        }
+        body.dark-mode #ai-chat-box button {
+            background-color: var(--color-theme-toggle-dark);
+        }
+        body.dark-mode .user-message {
+            background-color: var(--color-chat-user-dark);
+            color: var(--color-text-dark);
+        }
+        body.dark-mode .ai-message {
+            background-color: var(--color-chat-ai-dark);
+            color: var(--color-text-dark);
+        }
+
+        /* Article Summarizer Styles */
+        #summarizer-feature {
+            padding: 20px;
+            text-align: left;
+            background-color: var(--color-modal-bg-light);
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        #summarizer-feature textarea {
+            width: calc(100% - 24px);
+            height: 150px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px; /* More rounded corners */
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        #summarizer-feature button {
+            padding: 12px 25px;
+            background-color: var(--color-accent-register-light); /* Soft green tone */
+            color: white;
+            border: none;
+            border-radius: 12px; /* More rounded corners */
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #summarizer-feature button:hover {
+            background-color: var(--color-accent-register-hover-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        #summary-output {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px; /* More rounded corners */
+            min-height: 80px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2c3e50;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Dark mode summarizer styles */
+        body.dark-mode #summarizer-feature {
+            background-color: var(--color-modal-bg-dark);
+        }
+        body.dark-mode #summarizer-feature textarea {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+        }
+        body.dark-mode #summarizer-feature textarea::placeholder {
+            color: var(--color-input-placeholder-dark);
+        }
+        body.dark-mode #summarizer-feature button {
+            background-color: var(--color-accent-register-dark);
+            color: var(--color-header-dark);
+        }
+        body.dark-mode #summarizer-feature button:hover {
+            background-color: var(--color-accent-register-hover-dark);
+        }
+        body.dark-mode #summary-output {
+            background-color: #2c3e50;
+            color: var(--color-text-dark);
+            border-color: #34495e;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Chat Bot Toggle Button Styles */
+        #chat-toggle-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--color-button-light); /* Light blue color */
+            color: var(--color-text-light); /* Dark text color */
+            font-size: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #chat-toggle-button:hover {
+            background-color: var(--color-button-hover-light);
+            transform: scale(1.08);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        body.dark-mode #chat-toggle-button {
+            background-color: var(--color-theme-toggle-dark);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+        body.dark-mode #chat-toggle-button:hover {
+            background-color: var(--color-theme-toggle-dark);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+        }
+
+        /* Keyword Extractor Styles */
+        #keyword-extractor-feature {
+            padding: 20px;
+            text-align: left;
+            background-color: var(--color-modal-bg-light);
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        #keyword-extractor-feature textarea {
+            width: calc(100% - 24px);
+            height: 150px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px; /* More rounded corners */
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        #keyword-extractor-feature button {
+            padding: 12px 25px;
+            background-color: var(--color-button-light); /* Light blue tone */
+            color: var(--color-text-light); /* Dark text color */
+            border: none;
+            border-radius: 12px; /* More rounded corners */
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #keyword-extractor-feature button:hover {
+            background-color: var(--color-button-hover-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        #keywords-output {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px; /* More rounded corners */
+            min-height: 80px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2c3e50;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Dark mode keyword extractor styles */
+        body.dark-mode #keyword-extractor-feature {
+            background-color: var(--color-modal-bg-dark);
+        }
+        body.dark-mode #keyword-extractor-feature textarea {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+        }
+        body.dark-mode #keyword-extractor-feature textarea::placeholder {
+            color: var(--color-input-placeholder-dark);
+        }
+        body.dark-mode #keyword-extractor-feature button {
+            background-color: var(--color-theme-toggle-dark);
+            color: var(--color-header-dark);
+        }
+        body.dark-mode #keyword-extractor-feature button:hover {
+            background-color: var(--color-theme-toggle-dark);
+        }
+        body.dark-mode #keywords-output {
+            background-color: #2c3e50;
+            color: var(--color-text-dark);
+            border-color: #34495e;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Text Translator Styles */
+        #translator-feature {
+            padding: 20px;
+            text-align: left;
+            background-color: var(--color-modal-bg-light);
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        #translator-feature textarea {
+            width: calc(100% - 24px);
+            height: 150px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px; /* More rounded corners */
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        #translator-feature select {
+            padding: 10px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px; /* More rounded corners */
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            background-color: white;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2C197.3L159.2%2C69.5c-3.2-3.2-8.4-3.2-11.6%2C0L5.4%2C197.3c-3.2%2C3.2-3.2%2C8.4%2C0%2C11.6l16.8%2C16.8c3.2%2C3.2%2C8.4%2C3.2%2C11.6%2C0l118-118l118%2C118c3.2%2C3.2%2C8.4%2C3.2%2C11.6%2C0l16.8-16.8C290.2%2C205.7%2C290.2%2C200.5%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            background-size: 12px auto;
+        }
+
+        #translator-feature button {
+            padding: 12px 25px;
+            background-color: var(--color-accent-translator-light); /* Softer purple tone */
+            color: white;
+            border: none;
+            border-radius: 12px; /* More rounded corners */
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #translator-feature button:hover {
+            background-color: var(--color-accent-translator-hover-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        #translation-output {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px; /* More rounded corners */
+            min-height: 80px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2c3e50;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Dark mode translator styles */
+        body.dark-mode #translator-feature {
+            background-color: var(--color-modal-bg-dark);
+        }
+        body.dark-mode #translator-feature textarea {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+        }
+        body.dark-mode #translator-feature textarea::placeholder {
+            color: var(--color-input-placeholder-dark);
+        }
+        body.dark-mode #translator-feature select {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+            /* Corrected SVG path for dark mode select arrow */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ecf0f1%22%20d%3D%22M287%2C197.3L159.2%2C69.5c-3.2-3.2-8.4-3.2-11.6%2C0L5.4%2C197.3c-3.2%2C3.2-3.2%2C8.4%2C0%2C11.6l16.8%2C16.8c3.2%2C3.2%2C8.4%2C3.2%2C11.6%2C0l118-118l118%2C118c3.2%2C3.2%2C8.4%2C3.2%2C11.6%2C0l16.8-16.8C290.2%2C205.7%2C290.2%2C200.5%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E');
+        }
+        body.dark-mode #translator-feature button {
+            background-color: var(--color-accent-translator-dark);
+            color: var(--color-text-dark);
+        }
+        body.dark-mode #translator-feature button:hover {
+            background-color: var(--color-accent-translator-hover-dark);
+        }
+        body.dark-mode #translation-output {
+            background-color: #2c3e50;
+            color: var(--color-text-dark);
+            border-color: #34495e;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Deep Research Styles */
+        #deep-research-feature {
+            padding: 20px;
+            text-align: left;
+            background-color: var(--color-modal-bg-light);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        #deep-research-feature textarea {
+            width: calc(100% - 24px);
+            height: 100px; /* Shorter textarea */
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        #deep-research-feature button {
+            padding: 12px 25px;
+            background-color: var(--color-accent-research-light); /* Amber color */
+            color: #333; /* Dark text */
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #deep-research-feature button:hover {
+            background-color: var(--color-accent-research-hover-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        #research-output {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            min-height: 80px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2c3e50;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Dark mode deep research styles */
+        body.dark-mode #deep-research-feature {
+            background-color: var(--color-modal-bg-dark);
+        }
+        body.dark-mode #deep-research-feature textarea {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+        }
+        body.dark-mode #deep-research-feature textarea::placeholder {
+            color: var(--color-input-placeholder-dark);
+        }
+        body.dark-mode #deep-research-feature button {
+            background-color: var(--color-accent-research-dark);
+            color: var(--color-text-light); /* Dark text looks better on yellow button */
+        }
+        body.dark-mode #deep-research-feature button:hover {
+            background-color: var(--color-accent-research-hover-dark);
+        }
+        body.dark-mode #research-output {
+            background-color: #2c3e50;
+            color: var(--color-text-dark);
+            border-color: #34495e;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Automatic Citation Generator Styles */
+        #citation-generator-feature {
+            padding: 20px;
+            text-align: left;
+            background-color: var(--color-modal-bg-light);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        #citation-generator-feature textarea {
+            width: calc(100% - 24px);
+            height: 120px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        #citation-generator-feature select {
+            padding: 10px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            background-color: white;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2C197.3L159.2%2C69.5c-3.2-3.2-8.4-3.2-11.6%2C0L5.4%2C197.3c-3.2%2C3.2-3.2%2C8.4%2C0%2C11.6l16.8%2C16.8c3.2%2C3.2%2C8.4%2C3.2%2C11.6%2C0l118-118l118%2C118c3.2%2C3.2%2C8.4%2C3.2%2C11.6%2C0l16.8-16.8C290.2%2C205.7%2C290.2%2C200.5%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            background-size: 12px auto;
+        }
+
+        #citation-generator-feature button {
+            padding: 12px 25px;
+            background-color: var(--color-accent-citation-light); /* Green */
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #citation-generator-feature button:hover {
+            background-color: var(--color-accent-citation-hover-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        #citation-output {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            min-height: 80px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2c3e50;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Dark mode citation generator styles */
+        body.dark-mode #citation-generator-feature {
+            background-color: var(--color-modal-bg-dark);
+        }
+        body.dark-mode #citation-generator-feature textarea {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+        }
+        body.dark-mode #citation-generator-feature textarea::placeholder {
+            color: var(--color-input-placeholder-dark);
+        }
+        body.dark-mode #citation-generator-feature select {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+            /* Corrected SVG path for dark mode select arrow */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ecf0f1%22%20d%3D%22M287%2C197.3L159.2%2C69.5c-3.2-3.2-8.4-3.2-11.6%2C0L5.4%2C197.3c-3.2%2C3.2-3.2%2C8.4%2C0%2C11.6l16.8%2C16.8c3.2%2C3.2%2C8.4%2C3.2%2C11.6%2C0l118-118l118%2C118c3.2%2C3.2%2C8.4%2C3.2%2C11.6%2C0l16.8-16.8C290.2%2C205.7%2C290.2%2C200.5%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E');
+        }
+        body.dark-mode #citation-generator-feature button {
+            background-color: var(--color-accent-citation-dark);
+            color: var(--color-header-dark);
+        }
+        body.dark-mode #citation-generator-feature button:hover {
+            background-color: var(--color-accent-citation-hover-dark);
+        }
+        body.dark-mode #citation-output {
+            background-color: #2c3e50;
+            color: var(--color-text-dark);
+            border-color: #34495e;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Collaboration Features Styles */
+        #collaboration-feature {
+            padding: 20px;
+            text-align: left;
+            background-color: var(--color-modal-bg-light);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        #collaboration-feature .collaboration-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background-color: #fdfdfd;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        body.dark-mode #collaboration-feature .collaboration-section {
+            background-color: #2c3e50;
+            border-color: #34495e;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        #collaboration-feature h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode #collaboration-feature h3 {
+            color: var(--color-text-dark);
+        }
+
+        #collaboration-feature input[type="text"] {
+            width: calc(100% - 24px);
+            margin-bottom: 15px;
+        }
+
+        #collaboration-feature button {
+            padding: 10px 20px;
+            background-color: var(--color-accent-collaboration-light); /* Purple */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        #collaboration-feature button:hover {
+            background-color: var(--color-accent-collaboration-hover-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        body.dark-mode #collaboration-feature button {
+            background-color: var(--color-accent-collaboration-dark);
+            color: var(--color-text-dark);
+        }
+        body.dark-mode #collaboration-feature button:hover {
+            background-color: var(--color-accent-collaboration-hover-dark);
+        }
+
+        #my-groups-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        #my-groups-list li {
+            background-color: #f0f8ff;
+            border: 1px solid #d9e6f2;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        body.dark-mode #my-groups-list li {
+            background-color: #3a5a7a;
+            border-color: #4a6a8a;
+            color: var(--color-text-dark);
+        }
+
+        #my-groups-list li .group-actions button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            box-shadow: none;
+            margin-left: 5px; /* Space between buttons */
+        }
+        
+        #my-groups-list li .group-actions button.join-code-btn {
+            background-color: #28a745; /* Green for copy button */
+        }
+
+        #my-groups-list li .group-actions button:hover {
+            background-color: #c0392b;
+            transform: none;
+            box-shadow: none;
+        }
+        #my-groups-list li .group-actions button.join-code-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Akademik Arama Stilleri */
+        #academic-search-feature {
+            padding: 20px;
+            text-align: left;
+            background-color: var(--color-modal-bg-light);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        #academic-search-feature input[type="text"] {
+            width: calc(100% - 24px);
+            margin-bottom: 15px;
+        }
+
+        #academic-search-feature button {
+            padding: 12px 25px;
+            background-color: var(--color-accent-academic-light); /* Blue */
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #academic-search-feature button:hover {
+            background-color: var(--color-accent-academic-hover-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        #academic-search-output {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            min-height: 80px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #2c3e50;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        body.dark-mode #academic-search-feature {
+            background-color: var(--color-modal-bg-dark);
+        }
+        body.dark-mode #academic-search-feature input[type="text"] {
+            background-color: var(--color-input-bg-dark);
+            color: var(--color-text-dark);
+            border-color: var(--color-input-border-dark);
+        }
+        body.dark-mode #academic-search-feature input[type="text"]::placeholder {
+            color: var(--color-input-placeholder-dark);
+        }
+        body.dark-mode #academic-search-feature button {
+            background-color: var(--color-accent-academic-dark);
+            color: var(--color-text-dark);
+        }
+        body.dark-mode #academic-search-feature button:hover {
+            background-color: var(--color-accent-academic-hover-dark);
+        }
+        body.dark-mode #academic-search-output {
+            background-color: #2c3e50;
+            color: var(--color-text-dark);
+            border-color: #34495e;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Background gradient animation */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Overlay for when the nav menu is open */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4); /* Lighter transparent background */
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        #overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header-nav-links {
+                display: none;
+            }
+
+            #menu-toggle-button {
+                display: block;
+            }
+
+            header {
+                justify-content: space-between;
+            }
+
+            .header-logo {
+                flex-grow: 1;
+                text-align: center;
+                padding-right: 0;
+            }
+
+            /* Adjust chat box for smaller screens */
+            #ai-chat-box {
+                width: 90%;
+                max-width: 350px;
+                right: 5%;
+                left: auto;
+                bottom: 70px;
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-buttons {
+                flex-direction: column;
+                gap: 5px;
+                margin-top: 10px;
+                width: 100%;
+            }
+            .auth-buttons button {
+                width: 100%;
+            }
+            header {
+                padding: 10px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .header-logo {
+                margin-bottom: 10px;
+            }
+
+            /* Further adjust chat box for very small screens */
+            #ai-chat-box {
+                width: 95%;
+                right: 2.5%;
+                bottom: 60px;
+                height: 300px;
+            }
+        }
+
+        /* Dark Mode styles for header navigation and auth buttons on larger screens */
+        body.dark-mode .header-nav-links button, body.dark-mode .header-nav-links a {
+            color: var(--color-text-dark); /* Light text for dark mode */
+        }
+
+        body.dark-mode .header-nav-links button:hover, body.dark-mode .header-nav-links a:hover {
+            color: #5dade2; /* Blue hover for dark mode */
+        }
+
+        body.dark-mode .auth-buttons button {
+            background-color: var(--color-button-dark);
+            color: var(--color-text-dark);
+            border-color: #4a6a8a;
+        }
+
+        body.dark-mode .auth-buttons #register-btn {
+            background-color: var(--color-accent-register-dark);
+            color: var(--color-header-dark);
+        }
+
+        body.dark-mode .auth-buttons #register-btn:hover {
+            background-color: var(--color-accent-register-hover-dark);
+        }
+
+        body.dark-mode .auth-buttons button:hover {
+            background-color: var(--color-button-hover-dark);
+            box-shadow: 0px 4px 10px rgba(255,255,255,0.1);
+        }
+
+        /* Dark Mode Toggle Icon Styles */
+        #theme-toggle-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-theme-toggle-light); /* Light blue for light mode */
+            color: var(--color-text-light); /* Dark text/icon color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+        }
+
+        #theme-toggle-icon:hover {
+            background-color: var(--color-button-hover-light);
+            transform: scale(1.08);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode #theme-toggle-icon {
+            background-color: var(--color-theme-toggle-dark); /* Darker blue for dark mode */
+            color: var(--color-text-dark); /* Light icon color */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        body.dark-mode #theme-toggle-icon:hover {
+            background-color: var(--color-theme-toggle-dark);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+        }
+
+        #theme-toggle-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor; /* Use the parent's color */
+        }
+
+        /* Adjust header padding to avoid overlap with new moon icon */
+        header {
+            padding-right: 70px; /* Make space for the moon icon */
+        }
+
+        /* Dashboard Welcome Message Styles */
+        #dashboard-welcome-message {
+            font-size: 2em;
+            font-weight: 700;
+            color: #2c3e50; /* Dark color */
+            margin-top: 50px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode #dashboard-welcome-message {
+            color: var(--color-text-dark); /* Light color in dark mode */
+        }
+
+        /* Dashboard Nav Styling for a more integrated look */
+        #dashboard-nav {
+            display: flex;
+            justify-content: center; /* Center the buttons */
+            gap: 20px; /* Space between buttons */
+            margin-top: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        #dashboard-nav button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 15px; /* More rounded */
+            background: linear-gradient(145deg, #8ecae6, #6aaddf); /* Subtle gradient */
+            color: white; /* White text for contrast */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15); /* Stronger shadow */
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            min-width: 200px; /* Ensure minimum width */
+        }
+
+        #dashboard-nav button:hover {
+            transform: translateY(-5px); /* Lift effect */
+            box-shadow: 0 12px 25px rgba(0,0,0,0.25); /* More pronounced shadow */
+            background: linear-gradient(145deg, #6aaddf, #8ecae6); /* Reverse gradient on hover */
+        }
+
+        body.dark-mode #dashboard-nav button {
+            background: linear-gradient(145deg, #5dade2, #4a9ec9); /* Dark mode gradient */
+            color: #1c2b3a; /* Dark text for dark mode buttons */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode #dashboard-nav button:hover {
+            background: linear-gradient(145deg, #4a9ec9, #5dade2);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        /* Responsive adjustments for dashboard nav */
+        @media (max-width: 768px) {
+            #dashboard-nav {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: center;
+            }
+            #dashboard-nav button {
+                width: 90%; /* Take more width */
+                min-width: unset; /* Remove min-width */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Authentication Modal (Login/Register) -->
+    <div id="authModal" class="hidden">
+        <div id="authBox">
+            <h2 id="authTitle"><span data-lang="tr">Giriş Yap</span><span data-lang="en" class="hidden">Login</span></h2>
+            <input type="email" id="authEmail" placeholder="E-posta">
+            <input type="password" id="authPassword" placeholder="Şifre">
+            <button id="authSubmitBtn" onclick="window.handleAuthSubmit()"><span data-lang="tr">Giriş Yap</span><span data-lang="en" class="hidden">Login</span></button>
+            <div id="authError" class="hidden"><span data-lang="tr">Kullanıcı adı veya şifre hatalı!</span><span data-lang="en" class="hidden">Incorrect username or password!</span></div>
+            
+            <p class="toggle-auth-mode" id="toggle-to-register">
+                <span data-lang="tr">Hesabın yok mu? <a href="#" onclick="window.toggleAuthMode('register')">Kayıt Ol</a></span>
+                <span data-lang="en" class="hidden">Don't have an account? <a href="#" onclick="window.toggleAuthMode('register')">Register</a></span>
+            </p>
+            <p class="toggle-auth-mode hidden" id="toggle-to-login">
+                <span data-lang="tr">Zaten hesabın var mı? <a href="#" onclick="window.toggleAuthMode('login')">Giriş Yap</a></span>
+                <span data-lang="en" class="hidden">Already have an account? <a href="#" onclick="window.toggleAuthMode('login')">Login</a></span>
+            </p>
+            <button class="close-modal-btn" onclick="window.closeAuthModal()">X</button>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="customAlertModal" class="hidden">
+        <div id="customAlertBox">
+            <p id="customAlertMessage"></p>
+            <button onclick="window.closeCustomAlert()"><span data-lang="tr">Tamam</span><span data-lang="en" class="hidden">OK</span></button>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div class="container">
+        <!-- Side Menu -->
+        <nav>
+            <button onclick="window.showSection('anasayfa'); window.closeNav();"><span data-lang="tr">Anasayfa</span><span data-lang="en" class="hidden">Home</span></button>
+            <button onclick="window.showSection('hakkimizda'); window.closeNav();"><span data-lang="tr">Hakkımda</span><span data-lang="en" class="hidden">About Me</span></button>
+            <button onclick="window.showSection('iletisim'); window.closeNav();"><span data-lang="tr">İletişim</span><span data-lang="en" class="hidden">Contact</span></button>
+            <button id="dashboard-nav-btn-mobile" class="hidden" onclick="window.showSection('dashboard-section'); window.closeNav();"><span data-lang="tr">Kontrol Paneli</span><span data-lang="en" class="hidden">Dashboard</span></button>
+            <button id="language-toggle-button-nav" onclick="window.toggleLanguage()"><span data-lang="tr">English</span><span data-lang="en" class="hidden">Turkish</span></button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <div id="main-content">
+            <header>
+                <button id="menu-toggle-button" onclick="window.openNav()">☰</button> <!-- Hamburger icon -->
+                <a href="#" class="header-logo" onclick="window.showSection('anasayfa')">
+                    <span data-lang="tr">Bilgi Dostum</span><span data-lang="en" class="hidden">Info Buddy</span>
+                </a>
+                
+                <div class="header-nav-links">
+                    <button onclick="window.showSection('anasayfa');"><span data-lang="tr">Anasayfa</span><span data-lang="en" class="hidden">Home</span></button>
+                    <button onclick="window.showSection('hakkimizda');"><span data-lang="tr">Hakkımda</span><span data-lang="en" class="hidden">About Me</span></button>
+                    <button onclick="window.showSection('iletisim');"><span data-lang="tr">İletişim</span><span data-lang="en" class="hidden">Contact</span></button>
+                    <!-- Dashboard button will no longer appear here -->
+                </div>
+
+                <div class="auth-buttons">
+                    <button id="language-toggle-button" onclick="window.toggleLanguage()"><span data-lang="tr">English</span><span data-lang="en" class="hidden">Turkish</span></button>
+                    <button id="login-btn" onclick="window.showAuthModal('login')"><span data-lang="tr">Giriş Yap</span><span data-lang="en" class="hidden">Login</span></button>
+                    <button id="register-btn" onclick="window.showAuthModal('register')"><span data-lang="tr">Kayıt Ol</span><span data-lang="en" class="hidden">Register</span></button>
+                    <button id="logout-btn" onclick="window.logout()" class="hidden"><span data-lang="tr">Çıkış Yap</span><span data-lang="en" class="hidden">Logout</span></button>
+                </div>
+            </header>
+            
+            <!-- Dynamic Content Sections -->
+            <div class="content">
+                <div id="anasayfa">
+                    <h2><span data-lang="tr">Bilgi Dostum'a Hoş Geldiniz!</span><span data-lang="en" class="hidden">Welcome to Info Buddy!</span></h2>
+                    <p><span data-lang="tr">Başlamak için giriş yapın veya kayıt olun!</span><span data-lang="en" class="hidden">Here you can explore daily information, summarize articles, extract keywords, and translate texts. Log in or register to get started!</span></p>
+                </div>
+                
+                <div id="hakkimizda" class="hidden">
+                    <h2><span data-lang="tr">Hakkımda</span><span data-lang="en" class="hidden">About Me</span></h2>
+                    <p><span data-lang="tr">Ben web geliştirmeyi öğrenen bir öğrenciyim. 7. sınıfım ve yazılımı çok seviyorum.</span><span data-lang="en" class="hidden">I am a student learning web development. I am in 7th grade and I love software.</span></p>
+                </div>
+                
+                <div id="iletisim" class="hidden">
+                    <h2><span data-lang="tr">İletişim</span><span data-lang="en" class="hidden">Contact</span></h2>
+                    <p><span data-lang="tr">Email yoluyla ulaşabilirsiniz: <strong>ayseyurttass07@gmail.com</strong></span><span data-lang="en" class="hidden">You can reach me via email: <strong>ayseyurttass07@gmail.com</strong></span></p>
+                </div>
+
+                <!-- Dashboard Section - moved from dashboard.html -->
+                <div id="dashboard-section" class="hidden">
+                    <h2 class="hidden"><span data-lang="tr">Kontrol Paneli</span><span data-lang="en" class="hidden">Dashboard</span></h2>
+                    <p id="dashboard-welcome-message" class="hidden">
+                        <span data-lang="tr">VestaBX'e Hoş Geldiniz!</span>
+                        <span data-lang="en" class="hidden">Welcome to VestaBX!</span>
+                    </p>
+                    <div id="dashboard-nav">
+                        <button onclick="window.showDashboardFeature('summarizer-feature')"><span data-lang="tr">Makale Özetleyici</span><span data-lang="en" class="hidden">Article Summarizer</span></button>
+                        <button onclick="window.showDashboardFeature('keyword-extractor-feature')"><span data-lang="tr">Anahtar Kelime Çıkarıcı</span><span data-lang="en" class="hidden">Keyword Extractor</span></button>
+                        <button onclick="window.showDashboardFeature('translator-feature')"><span data-lang="tr">Metin Çevirici</span><span data-lang="en" class="hidden">Text Translator</span></button>
+                        <button onclick="window.showDashboardFeature('deep-research-feature')"><span data-lang="tr">Derin Araştırma</span><span data-lang="en" class="hidden">Deep Research</span></button>
+                        <button onclick="window.showDashboardFeature('citation-generator-feature')"><span data-lang="tr">Kaynakçı Oluşturucu</span><span data-lang="en" class="hidden">Citation Generator</span></button>
+                        <button onclick="window.showDashboardFeature('collaboration-feature')"><span data-lang="tr">İşbirliği</span><span data-lang="en" class="hidden">Collaboration</span></button>
+                        <button onclick="window.showDashboardFeature('academic-search-feature')"><span data-lang="tr">Akademik Arama</span><span data-lang="en" class="hidden">Academic Search</span></button>
+                    </div>
+
+                    <!-- Article Summarizer Section -->
+                    <div id="summarizer-feature" class="dashboard-feature hidden">
+                        <h3><span data-lang="tr">Makale Özetleyici ✨</span><span data-lang="en" class="hidden">Article Summarizer ✨</span></h3>
+                        <p><span data-lang="tr">Özetlemek istediğiniz metni aşağıya yapıştırın:</span><span data-lang="en" class="hidden">Paste the text you want to summarize below:</span></p>
+                        <textarea id="article-input" placeholder="Metni buraya yapıştırın..."></textarea>
+                        <button onclick="window.summarizeArticle()"><span data-lang="tr">Özetle</span><span data-lang="en" class="hidden">Summarize</span></button>
+                        <div id="summary-output"></div>
+                    </div>
+
+                    <!-- Keyword Extractor Section -->
+                    <div id="keyword-extractor-feature" class="dashboard-feature hidden">
+                        <h3><span data-lang="tr">Anahtar Kelime Çıkarıcı 🔑</span><span data-lang="en" class="hidden">Keyword Extractor 🔑</span></h3>
+                        <p><span data-lang="tr">Anahtar kelimelerini çıkarmak istediğiniz metni aşağıya yapıştırın:</span><span data-lang="en" class="hidden">Paste the text from which you want to extract keywords below:</span></p>
+                        <textarea id="keyword-input" placeholder="Metni buraya yapıştırın..."></textarea>
+                        <button onclick="window.extractKeywords()"><span data-lang="tr">Anahtar Kelimeleri Çıkar</span><span data-lang="en" class="hidden">Extract Keywords</span></button>
+                        <div id="keywords-output"></div>
+                    </div>
+
+                    <!-- Text Translator Section -->
+                    <div id="translator-feature" class="dashboard-feature hidden">
+                        <h3><span data-lang="tr">Metin Çevirici 🌐</span><span data-lang="en" class="hidden">Text Translator 🌐</span></h3>
+                        <p><span data-lang="tr">Çevirmek istediğiniz metni girin ve hedef dili seçin:</span><span data-lang="en" class="hidden">Enter the text you want to translate and select the target language:</span></p>
+                        <textarea id="text-to-translate" placeholder="Metni buraya yapıştırın..."></textarea>
+                        <select id="target-language">
+                            <option value="en" data-lang="tr">İngilizce</option><option value="en" data-lang="en" class="hidden">English</option>
+                            <option value="es" data-lang="tr">İspanyolca</option><option value="es" data-lang="en" class="hidden">Spanish</option>
+                            <option value="fr" data-lang="tr">Fransızca</option><option value="fr" data-lang="en" class="hidden">French</option>
+                            <option value="de" data-lang="tr">Almanca</option><option value="de" data-lang="en" class="hidden">German</option>
+                            <option value="tr" data-lang="tr">Türkçe</option><option value="tr" data-lang="en" class="hidden">Turkish</option>
+                            <option value="ar" data-lang="tr">Arapça</option><option value="ar" data-lang="en" class="hidden">Arabic</option>
+                            <option value="zh" data-lang="tr">Çince</option><option value="zh" data-lang="en" class="hidden">Chinese</option>
+                            <option value="ja" data-lang="tr">Japonca</option><option value="ja" data-lang="en" class="hidden">Japanese</option>
+                            <option value="ru" data-lang="tr">Rusça</option><option value="ru" data-lang="en" class="hidden">Russian</option>
+                            <!-- More languages can be added -->
+                        </select>
+                        <button onclick="window.translateText()"><span data-lang="tr">Çevir</span><span data-lang="en" class="hidden">Translate</span></button>
+                        <div id="translation-output"></div>
+                    </div>
+
+                    <!-- Deep Research Section -->
+                    <div id="deep-research-feature" class="dashboard-feature hidden">
+                        <h3><span data-lang="tr">Derin Araştırma 🔍</span><span data-lang="en" class="hidden">Deep Research 🔍</span></h3>
+                        <p><span data-lang="tr">Araştırmak istediğiniz konuyu veya soruyu buraya girin:</span><span data-lang="en" class="hidden">Enter the topic or question you want to research here:</span></p>
+                        <textarea id="research-query-input" placeholder="Örn: Yapay zekanın geleceği, Kuantum fiziği nedir?"></textarea>
+                        <button onclick="window.performDeepResearch()"><span data-lang="tr">Araştır</span><span data-lang="en" class="hidden">Research</span></button>
+                        <div id="research-output"></div>
+                    </div>
+
+                    <!-- Automatic Citation Generator Section -->
+                    <div id="citation-generator-feature" class="dashboard-feature hidden">
+                        <h3><span data-lang="tr">Kaynakçı Oluşturucu 📚</span><span data-lang="en" class="hidden">Citation Generator 📚</span></h3>
+                        <p><span data-lang="tr">Kaynakçasını oluşturmak istediğiniz metni buraya yapıştırın. Sistem ilgili bilgileri çıkaracaktır:</span><span data-lang="en" class="hidden">Paste the text here from which you want to generate a citation. The system will extract relevant information:</span></p>
+                        <textarea id="citation-input" placeholder="Metni buraya yapıştırın..."></textarea>
+                        <select id="citation-format">
+                            <option value="APA" data-lang="tr">APA</option><option value="APA" data-lang="en" class="hidden">APA</option>
+                            <option value="MLA" data-lang="tr">MLA</option><option value="MLA" data-lang="en" class="hidden">MLA</option>
+                            <option value="Chicago" data-lang="tr">Chicago</option><option value="Chicago" data-lang="en" class="hidden">Chicago</option>
+                        </select>
+                        <button onclick="window.generateCitation()"><span data-lang="tr">Kaynak Oluştur</span><span data-lang="en" class="hidden">Generate Citation</span></button>
+                        <div id="citation-output"></div>
+                    </div>
+
+                    <!-- Collaboration Features Section -->
+                    <div id="collaboration-feature" class="dashboard-feature hidden">
+                        <h3><span data-lang="tr">İşbirliği Özellikleri 🤝</span><span data-lang="en" class="hidden">Collaboration Features 🤝</span></h3>
+                        <p><span data-lang="tr">Araştırma grupları oluşturun ve yönetin.</span><span data-lang="en" class="hidden">Create and manage research groups.</span></p>
+                        
+                        <div class="collaboration-section">
+                            <h4><span data-lang="tr">Grup Oluştur</span><span data-lang="en" class="hidden">Create Group</span></h4>
+                            <input type="text" id="new-group-name" placeholder="Yeni Grup Adı">
+                            <button onclick="window.createGroup()"><span data-lang="tr">Grup Oluştur</span><span data-lang="en" class="hidden">Create Group</span></button>
+                        </div>
+
+                        <div class="collaboration-section">
+                            <h4><span data-lang="tr">Gruba Katıl</span><span data-lang="en" class="hidden">Join Group</span></h4>
+                            <input type="text" id="join-group-code" placeholder="Grup Kodunu Girin">
+                            <button onclick="window.joinGroup()"><span data-lang="tr">Katıl</span><span data-lang="en" class="hidden">Join</span></button>
+                        </div>
+
+                        <div class="collaboration-section">
+                            <h4><span data-lang="tr">Gruplarım</span><span data-lang="en" class="hidden">My Groups</span></h4>
+                            <ul id="my-groups-list">
+                                <li id="no-groups-message">
+                                    <span data-lang="tr">Henüz grubunuz yok.</span>
+                                    <span data-lang="en" class="hidden">You don't have any groups yet.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Academic Search Section -->
+                    <div id="academic-search-feature" class="dashboard-feature hidden">
+                        <h3><span data-lang="tr">Akademik Arama 🎓</span><span data-lang="en" class="hidden">Academic Search 🎓</span></h3>
+                        <p><span data-lang="tr">Akademik makaleler, tezler ve araştırmalar için arama yapın:</span><span data-lang="en" class="hidden">Search for academic articles, theses, and research:</span></p>
+                        <input type="text" id="academic-query-input" placeholder="Örn: Yapay zeka etiği, Kuantum hesaplama uygulamaları">
+                        <button onclick="window.performAcademicSearch()"><span data-lang="tr">Akademik Ara</span><span data-lang="en" class="hidden">Academic Search</span></button>
+                        <div id="academic-search-output"></div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <footer>
+                © 2025 <span data-lang="tr">Web Öğreniyorum!</span><span data-lang="en" class="hidden">Learning Web Development!</span>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- Chat Bot Toggle Button -->
+    <div id="chat-toggle-button" onclick="window.toggleChatBox()">💬</div>
+
+    <!-- Dark Mode Toggle Icon -->
+    <div id="theme-toggle-icon" onclick="window.toggleTheme()" role="button" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm0 18a8.25 8.25 0 1 1 0-16.5 8.25 8.25 0 0 1 0 16.5zM12 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z"/>
+        </svg>
+    </div>
+
+    <!-- AI Chat Area -->
+    <div id="ai-chat-box">
+        <div id="chat-messages"></div>
+        <input type="text" id="chat-input" placeholder="Bir şeyler yazın...">
+        <button onclick="window.sendMessage()"><span data-lang="tr">Gönder</span><span data-lang="en" class="hidden">Send</span></button>
+    </div>
+
+    <!-- Overlay for when the nav menu is open -->
+    <div id="overlay" onclick="window.closeNav()"></div>
+
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // Firestore importları
+        import { getFirestore, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, onSnapshot, arrayUnion, arrayRemove, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Global Variables
+        let app;
+        let db; // Firestore instance
+        let auth;
+        let currentFirebaseUserId = null; // Stores the actual Firebase User ID
+
+        // Canvas environment variables (Provided by the platform)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // Firebase yapılandırma objesi. Bu bilgiler Firebase projenizin ayarlarından alınmıştır.
+        // Hata alıyorsanız, lütfen Firebase konsolunuzdaki API anahtarını ve diğer kimlik bilgilerini kontrol edin.
+        const firebaseConfig = {
+            apiKey: "AIzaSyAuP9cfJdu42GVW3ynSmjJuU1sBgQb_qD8",
+            authDomain: "bilgi-dostum.firebaseapp.com",
+            databaseURL: "https://bilgi-dostum-default-rtdb.firebaseio.com",
+            projectId: "bilgi-dostum",
+            storageBucket: "bilgi-dostum.firebasestorage.app",
+            messagingSenderId: "205242165416",
+            appId: "1:205242165416:web:3e90eb578750a37a377a9d",
+            measurementId: "G-STC0HNV72B"
+        };
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null; 
+
+        // Custom Alert Functions (Moved to top for global availability)
+        window.showCustomAlert = function(message) {
+            const customAlertModal = document.getElementById('customAlertModal');
+            const customAlertMessage = document.getElementById('customAlertMessage');
+            customAlertMessage.textContent = message;
+            customAlertModal.classList.remove('hidden');
+            setTimeout(() => customAlertModal.classList.add('visible'), 10);
+            document.body.style.overflow = "hidden";
+        };
+
+        window.closeCustomAlert = function() {
+            const customAlertModal = document.getElementById('customAlertModal');
+            customAlertModal.classList.remove('visible');
+            setTimeout(() => {
+                document.getElementById('customAlertModal').classList.add('hidden');
+                document.body.style.overflow = "auto";
+            }, 300);
+        };
+
+        let currentLanguage = 'tr'; // Default language is Turkish
+
+        // Global state for authentication (still used for UI access control)
+        let isLoggedIn = false; // Will be set by Firebase auth state
+
+        let currentAuthMode = 'login'; // 'login' or 'register'
+
+        // Translations object
+        const translations = {
+            tr: {
+                loginTitle: "Giriş Yap",
+                registerTitle: "Kayıt Ol",
+                loginButton: "Giriş Yap",
+                registerButton: "Kayıt Ol",
+                authEmptyFields: "Lütfen tüm alanları doldurun.",
+                registerUserExists: "Bu e-posta zaten kullanımda.", // Updated for email
+                loginRequired: "Bu özelliği kullanmak için giriş yapmalısınız.",
+                logoutSuccess: "Başarıyla çıkış yapıldı.",
+                loginEmailPlaceholder: "E-posta", // Updated placeholder
+                loginPasswordPlaceholder: "Şifre",
+                loginError: "Geçersiz e-posta veya şifre.", // Updated for email
+                languageToggleEnglish: "English",
+                languageToggleTurkish: "Turkish",
+                okButton: "Tamam",
+                dashboardTitle: "Kontrol Paneli",
+                welcomeMessage: "Burada günlük bilgileri keşfedebilir, makaleleri özetleyebilir, anahtar kelimeler çıkarabilir ve metinleri çevirebilirsiniz. Başlamak için giriş yapın veya kayıt olun!",
+                dashboardWelcome: "VestaBX'e Hoş Geldiniz!",
+                dashboardSummarizer: "Makale Özetleyici",
+                dashboardKeyword: "Anahtar Kelime Çıkarıcı",
+                dashboardTranslator: "Metin Çevirici",
+                dashboardDeepResearch: "Derin Araştırma",
+                dashboardCitationGenerator: "Kaynakçı Oluşturucu",
+                dashboardCollaboration: "İşbirliği",
+                dashboardAcademicSearch: "Akademik Arama",
+                summarizerPlaceholder: "Metni buraya yapıştırın...",
+                summarizerLoading: "Özetleniyor...",
+                summarizerEmpty: "Lütfen özetlemek istediğiniz metni girin.",
+                summarizerErrorApi: "Özetleme başarısız oldu. Lütfen tekrar deneyin.",
+                summarizerErrorNetwork: "Özetleme sırasında bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.",
+                keywordExtractorPlaceholder: "Metni buraya yapıştırın...",
+                keywordExtractorLoading: "Anahtar kelimeler çıkarılıyor...",
+                keywordExtractorEmpty: "Lütfen anahtar kelimelerini çıkarmak istediğiniz metni girin.",
+                keywordExtractorErrorApi: "Anahtar kelime çıkarma başarısız oldu. Lütfen tekrar deneyin.",
+                keywordExtractorErrorNetwork: "Anahtar kelime çıkarma sırasında bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.",
+                translatorPlaceholder: "Metni buraya yapıştırın...",
+                translatorLoading: "Çevriliyor...",
+                translatorEmpty: "Lütfen çevirmek istediğiniz metni girin.",
+                translatorErrorApi: "Çeviri başarısız oldu. Lütfen tekrar deneyin.",
+                translatorErrorNetwork: "Çeviri sırasında bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.",
+                deepResearchPlaceholder: "Örn: Yapay zekanın geleceği, Kuantum fiziği nedir?",
+                deepResearchLoading: "Araştırma yapılıyor...",
+                deepResearchEmpty: "Lütfen araştırmak istediğiniz konuyu veya soruyu girin.",
+                deepResearchErrorApi: "Araştırma başarısız oldu. Lütfen tekrar deneyin.",
+                deepResearchErrorNetwork: "Araştırma sırasında bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.",
+                citationGeneratorPlaceholder: "Kaynakçasını oluşturmak istediğiniz metni buraya yapıştırın. Sistem ilgili bilgileri çıkaracaktır.",
+                citationGeneratorLoading: "Kaynakça oluşturuluyor...",
+                citationGeneratorEmpty: "Lütfen kaynakça oluşturmak istediğiniz metni girin.",
+                citationGeneratorErrorApi: "Kaynakça oluşturma başarısız oldu. Lütfen tekrar deneyin.",
+                citationGeneratorErrorNetwork: "Kaynakça oluşturma sırasında bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.",
+                collaborationCreateGroup: "Grup Oluştur",
+                collaborationNewGroupNamePlaceholder: "Yeni Grup Adı",
+                collaborationJoinGroup: "Gruba Katıl",
+                collaborationJoinGroupCodePlaceholder: "Grup Kodunu Girin",
+                collaborationMyGroups: "Gruplarım",
+                collaborationNoGroups: "Henüz grubunuz yok.",
+                collaborationGroupCreated: "Grup başarıyla oluşturuldu! Grup Kodu: ",
+                collaborationGroupJoined: "Gruba başarıyla katıldınız!",
+                collaborationGroupNotFound: "Grup kodu bulunamadı. Lütfen kontrol edin.",
+                collaborationAlreadyMember: "Zaten bu grubun bir üyesisiniz.",
+                collaborationGroupNameEmpty: "Lütfen bir grup adı girin.",
+                collaborationGroupCodeEmpty: "Lütfen bir grup kodu girin.",
+                collaborationFetchGroupsError: "Gruplar yüklenirken bir hata oluştu.",
+                collaborationDeleteGroupConfirm: "Bu grubu silmek istediğinizden emin misiniz?",
+                collaborationLeaveGroupConfirm: "Bu gruptan ayrılmak istediğinizden emin misiniz?",
+                collaborationGroupDeleted: "Grup başarıyla silindi.",
+                collaborationGroupLeft: "Gruptan başarıyla ayrıldınız.",
+                collaborationDeleteGroupError: "Grup silinirken bir hata oluştu.",
+                collaborationLeaveGroupError: "Gruptan ayrılırken bir hata oluştu.",
+                academicSearchPlaceholder: "Örn: Yapay zeka etiği, Kuantum hesaplama uygulamaları",
+                academicSearchLoading: "Akademik arama yapılıyor...",
+                academicSearchResults: "Arama Sonuçları:",
+                academicSearchNoResults: "Arama sonuç bulunamadı.",
+                academicSearchErrorApi: "Akademik arama başarısız oldu. Lütfen tekrar deneyin.",
+                academicSearchErrorNetwork: "Akademik arama sırasında bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.",
+                chatInputPlaceholder: "Bir şeyler yazın...",
+                chatSendButton: "Gönder",
+                chatApiError: "Hata: API'den geçerli bir yanıt alınamadı veya içerik boş.",
+                chatNetworkError: "Hata: Mesaj gönderilemedi. Lütfen API anahtarınızı ve internet bağlantınızı kontrol edin.",
+                copySuccess: "Kopyalandı!",
+                copyFail: "Kopyalanamadı.",
+                authWeakPassword: "Şifre en az 6 karakter olmalıdır.",
+                authUserNotFound: "Bu e-posta ile kayıtlı bir kullanıcı bulunamadı.",
+                authWrongPassword: "Yanlış şifre. Lütfen tekrar deneyin.",
+                authInvalidEmail: "Geçersiz e-posta adresi.",
+                authInvalidCredentials: "Geçersiz kimlik bilgileri. E-postanızı ve şifrenizi kontrol edin.", // New translation
+                authAdminRestrictedAnonymous: "Hata: Anonim kimlik doğrulama etkin değil. Lütfen Firebase projenizin Kimlik Doğrulama bölümünde anonim giriş yöntemini etkinleştirin veya e-posta/şifre ile kayıt olun.",
+                authCustomTokenError: "Hata: Özel kimlik doğrulama token'ı geçersiz. Lütfen Firebase kurulumunuzu kontrol edin.",
+                authGenericFirebaseError: "Firebase kimlik doğrulama hatası:",
+            },
+            en: {
+                loginTitle: "Login",
+                registerTitle: "Register",
+                loginButton: "Login",
+                registerButton: "Register",
+                authEmptyFields: "Please fill in all fields.",
+                registerUserExists: "This email is already in use.", // Updated for email
+                loginRequired: "You must log in to use this feature.",
+                logoutSuccess: "Successfully logged out.",
+                loginEmailPlaceholder: "Email", // Updated placeholder
+                loginPasswordPlaceholder: "Password",
+                loginError: "Invalid email or password.", // Updated for email
+                languageToggleEnglish: "English",
+                languageToggleTurkish: "Turkish",
+                okButton: "OK",
+                dashboardTitle: "Dashboard",
+                welcomeMessage: "Here you can explore daily information, summarize articles, extract keywords, and translate texts. Log in or register to get started!",
+                dashboardWelcome: "Welcome to VestaBX!",
+                dashboardSummarizer: "Article Summarizer",
+                dashboardKeyword: "Keyword Extractor",
+                dashboardTranslator: "Text Translator",
+                dashboardDeepResearch: "Deep Research",
+                dashboardCitationGenerator: "Citation Generator",
+                dashboardCollaboration: "Collaboration",
+                dashboardAcademicSearch: "Academic Search",
+                summarizerPlaceholder: "Paste the text here...",
+                summarizerLoading: "Summarizing...",
+                summarizerEmpty: "Please enter the text you want to summarize.",
+                summarizerErrorApi: "Summarization failed. Please try again.",
+                summarizerErrorNetwork: "An error occurred during summarization. Please check your internet connection.",
+                keywordExtractorPlaceholder: "Paste the text here...",
+                keywordExtractorLoading: "Extracting keywords...",
+                keywordExtractorEmpty: "Please enter the text from which you want to extract keywords.",
+                keywordExtractorErrorApi: "Keyword extraction failed. Please try again.",
+                keywordExtractorErrorNetwork: "An error occurred during keyword extraction. Please check your internet connection.",
+                translatorPlaceholder: "Paste the text here...",
+                translatorLoading: "Translating...",
+                translatorEmpty: "Please enter the text you want to translate.",
+                translatorErrorApi: "Translation failed. Please try again.",
+                translatorErrorNetwork: "An error occurred during translation. Please check your internet connection.",
+                deepResearchPlaceholder: "Ex: Future of AI, What is quantum physics?",
+                deepResearchLoading: "Performing research...",
+                deepResearchEmpty: "Please enter the topic or question you want to research.",
+                deepResearchErrorApi: "Research failed. Please try again.",
+                deepResearchErrorNetwork: "An error occurred during research. Please check your internet connection.",
+                citationGeneratorPlaceholder: "Paste the text here from which you want to generate a citation. The system will extract relevant information:",
+                citationGeneratorLoading: "Generating citation...",
+                citationGeneratorEmpty: "Please enter the text from which you want to generate a citation.",
+                citationGeneratorErrorApi: "Citation generation failed. Please try again.",
+                citationGeneratorErrorNetwork: "An error occurred during citation generation. Please check your internet connection.",
+                collaborationCreateGroup: "Grup Oluştur",
+                collaborationNewGroupNamePlaceholder: "Yeni Grup Adı",
+                collaborationJoinGroup: "Gruba Katıl",
+                collaborationJoinGroupCodePlaceholder: "Grup Kodunu Girin",
+                collaborationMyGroups: "My Groups",
+                collaborationNoGroups: "You don't have any groups yet.",
+                collaborationGroupCreated: "Group created successfully! Group Code: ",
+                collaborationGroupJoined: "You have successfully joined the group!",
+                collaborationGroupNotFound: "Group code not found. Please check.",
+                collaborationAlreadyMember: "You are already a member of this group.",
+                collaborationGroupNameEmpty: "Please enter a group name.",
+                collaborationGroupCodeEmpty: "Please enter a group code.",
+                collaborationFetchGroupsError: "An error occurred while loading groups.",
+                collaborationDeleteGroupConfirm: "Are you sure you want to delete this group?",
+                collaborationLeaveGroupConfirm: "Are you sure you want to leave this group?",
+                collaborationGroupDeleted: "Group deleted successfully.",
+                collaborationGroupLeft: "Successfully left the group.",
+                collaborationDeleteGroupError: "Error deleting group.",
+                collaborationLeaveGroupError: "Error leaving group.",
+                academicSearchPlaceholder: "Ex: Ethics of AI, Quantum computing applications",
+                academicSearchLoading: "Performing academic search...",
+                academicSearchResults: "Search Results:",
+                academicSearchNoResults: "No search results found.",
+                academicSearchErrorApi: "Academic search failed. Please try again.",
+                academicSearchErrorNetwork: "An error occurred during academic search. Please check your internet connection.",
+                chatInputPlaceholder: "Type something...",
+                chatSendButton: "Send",
+                chatApiError: "Error: No valid response from API or content is empty.",
+                chatNetworkError: "Error: Message could not be sent. Please check your API key and internet connection.",
+                copySuccess: "Copied!",
+                copyFail: "Failed to copy.",
+                authWeakPassword: "Password should be at least 6 characters.",
+                authUserNotFound: "No user found with this email.",
+                authWrongPassword: "Wrong password. Please try again.",
+                authInvalidEmail: "Invalid email address.",
+                authInvalidCredentials: "Invalid credentials. Check your email and password.", // New translation
+                authAdminRestrictedAnonymous: "Error: Anonymous authentication is not enabled. Please enable the anonymous sign-in method in your Firebase project's Authentication section, or register with email/password.",
+                authCustomTokenError: "Error: Invalid custom authentication token. Please check your Firebase setup.",
+                authGenericFirebaseError: "Firebase authentication error:",
+            }
+        };
+
+        // Function to update text content based on current language
+        function updateTextContent() {
+            // Placeholders
+            document.getElementById('authEmail').placeholder = translations[currentLanguage].loginEmailPlaceholder; // Updated ID
+            document.getElementById('authPassword').placeholder = translations[currentLanguage].loginPasswordPlaceholder;
+            document.getElementById('chat-input').placeholder = translations[currentLanguage].chatInputPlaceholder;
+            document.getElementById('article-input').placeholder = translations[currentLanguage].summarizerPlaceholder;
+            document.getElementById('keyword-input').placeholder = translations[currentLanguage].keywordExtractorPlaceholder;
+            document.getElementById('text-to-translate').placeholder = translations[currentLanguage].translatorPlaceholder;
+            document.getElementById('research-query-input').placeholder = translations[currentLanguage].deepResearchPlaceholder;
+            // Updated placeholder for citation input
+            document.getElementById('citation-input').placeholder = translations[currentLanguage].citationGeneratorPlaceholder;
+            document.getElementById('new-group-name').placeholder = translations[currentLanguage].collaborationNewGroupNamePlaceholder;
+            document.getElementById('join-group-code').placeholder = translations[currentLanguage].collaborationJoinGroupCodePlaceholder;
+            document.getElementById('academic-query-input').placeholder = translations[currentLanguage].academicSearchPlaceholder;
+
+            // Update Auth modal title and button text
+            const authTitle = document.getElementById('authTitle');
+            const authSubmitBtn = document.getElementById('authSubmitBtn');
+            const authError = document.getElementById('authError');
+            const toggleToRegister = document.getElementById('toggle-to-register');
+            const toggleToLogin = document.getElementById('toggle-to-login');
+
+            // Update auth title and button text based on mode
+            if (currentAuthMode === 'login') {
+                authTitle.innerHTML = `<span data-lang="tr">${translations.tr.loginTitle}</span><span data-lang="en" class="hidden">${translations.en.loginTitle}</span>`;
+                authSubmitBtn.innerHTML = `<span data-lang="tr">${translations.tr.loginButton}</span><span data-lang="en" class="hidden">${translations.en.loginButton}</span>`;
+                toggleToRegister.classList.remove('hidden');
+                toggleToLogin.classList.add('hidden');
+            } else { // 'register'
+                authTitle.innerHTML = `<span data-lang="tr">${translations.tr.registerTitle}</span><span data-lang="en" class="hidden">${translations.en.registerTitle}</span>`;
+                authSubmitBtn.innerHTML = `<span data-lang="tr">${translations.tr.registerButton}</span><span data-lang="en" class="hidden">${translations.en.registerButton}</span>`;
+                toggleToRegister.classList.add('hidden');
+                toggleToLogin.classList.remove('hidden');
+            }
+            
+            // Update error message (if visible)
+            if (!authError.classList.contains('hidden')) {
+                const trSpan = authError.querySelector('[data-lang="tr"]');
+                const enSpan = authError.querySelector('[data-lang="en"]');
+                if (trSpan && enSpan) {
+                    trSpan.style.display = currentLanguage === 'tr' ? 'block' : 'none';
+                    enSpan.style.display = currentLanguage === 'en' ? 'block' : 'none';
+                }
+            }
+
+            // Update select options
+            const targetLanguageSelect = document.getElementById('target-language');
+            Array.from(targetLanguageSelect.options).forEach(option => {
+                const langTrSpan = option.querySelector('[data-lang="tr"]');
+                const langEnSpan = option.querySelector('[data-lang="en"]');
+                if (langTrSpan && langEnSpan) {
+                    if (currentLanguage === 'tr') {
+                        langTrSpan.style.display = 'block';
+                        langEnSpan.style.display = 'none';
+                    } else {
+                        langTrSpan.style.display = 'none';
+                        langEnSpan.style.display = 'block';
+                    }
+                }
+            });
+            
+            // Clear or update output areas if they contain loading/empty messages
+            const outputElements = [
+                document.getElementById('summary-output'),
+                document.getElementById('keywords-output'),
+                document.getElementById('translation-output'),
+                document.getElementById('research-output'),
+                document.getElementById('citation-output'),
+                document.getElementById('academic-search-output')
+            ];
+            outputElements.forEach(outputEl => {
+                if (outputEl) {
+                    const currentText = outputEl.textContent.trim();
+                    const loadingTexts = [
+                        translations.tr.summarizerLoading, translations.en.summarizerLoading,
+                        translations.tr.keywordExtractorLoading, translations.en.keywordExtractorLoading,
+                        translations.tr.translatorLoading, translations.en.translatorLoading,
+                        translations.tr.deepResearchLoading, translations.en.deepResearchLoading,
+                        translations.tr.citationGeneratorLoading, translations.en.citationGeneratorLoading,
+                        translations.tr.academicSearchLoading, translations.en.academicSearchLoading
+                    ];
+                    if (loadingTexts.includes(currentText) || currentText === translations.tr.academicSearchRedirecting || currentText === translations.en.academicSearchRedirecting) {
+                        outputEl.textContent = "";
+                    }
+                }
+            });
+
+            // Initial group list message
+            const noGroupsMessageLi = document.getElementById('no-groups-message');
+            if (noGroupsMessageLi) {
+                const trSpan = noGroupsMessageLi.querySelector('[data-lang="tr"]');
+                const enSpan = noGroupsMessageLi.querySelector('[data-lang="en"]');
+                if (trSpan && enSpan) {
+                    if (currentLanguage === 'tr') {
+                        trSpan.style.display = 'block';
+                        enSpan.style.display = 'none';
+                    } else {
+                        trSpan.style.display = 'none';
+                        enSpan.style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        // Language Toggle Function
+        window.toggleLanguage = function() { // Made global
+            if (currentLanguage === 'tr') {
+                document.body.classList.add('english-mode');
+                currentLanguage = 'en';
+            } else {
+                document.body.classList.remove('english-mode');
+                currentLanguage = 'tr';
+            }
+            updateTextContent(); // Call updateTextContent to refresh placeholders and dynamic elements
+        }
+
+        // Function to update the UI based on login status
+        function updateAuthUI() {
+            console.log('updateAuthUI called. isLoggedIn:', isLoggedIn);
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            const dashboardNavBtnMobile = document.getElementById('dashboard-nav-btn-mobile');
+
+            const homeBtnHeader = document.querySelector('.header-nav-links button[onclick*="anasayfa"]');
+            const aboutBtnHeader = document.querySelector('.header-nav-links button[onclick*="hakkimizda"]');
+            const contactBtnHeader = document.querySelector('.header-nav-links button[onclick*="iletisim"]');
+
+            const homeBtnNav = document.querySelector('nav button[onclick*="anasayfa"]');
+            const aboutBtnNav = document.querySelector('nav button[onclick*="hakkimizda"]');
+            const contactBtnNav = document.querySelector('nav button[onclick*="iletisim"]');
+
+            // Check if a user is truly logged in (non-anonymous and has an email)
+            const isTrulyLoggedIn = auth.currentUser && !auth.currentUser.isAnonymous && auth.currentUser.email;
+
+            if (isTrulyLoggedIn) {
+                loginBtn.classList.add('hidden');
+                registerBtn.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+
+                homeBtnHeader?.classList.add('hidden');
+                aboutBtnHeader?.classList.add('hidden');
+                contactBtnHeader?.classList.add('hidden');
+
+                homeBtnNav?.classList.add('hidden');
+                aboutBtnNav?.classList.add('hidden');
+                contactBtnNav?.classList.add('hidden');
+
+                dashboardNavBtnMobile?.classList.remove('hidden');
+
+                window.showSection('dashboard-section');
+                window.fetchGroups(); // Fetch groups only if truly logged in
+            } else {
+                loginBtn.classList.remove('hidden');
+                registerBtn.classList.remove('hidden');
+                logoutBtn.classList.add('hidden');
+
+                dashboardNavBtnMobile?.classList.add('hidden');
+
+                homeBtnHeader?.classList.remove('hidden');
+                aboutBtnHeader?.classList.remove('hidden');
+                contactBtnHeader?.classList.remove('hidden');
+
+                homeBtnNav?.classList.remove('hidden');
+                aboutBtnNav?.classList.remove('hidden');
+                contactBtnNav?.classList.remove('hidden');
+
+                window.showSection('anasayfa');
+                // Ensure the "no groups" message HTML is reset when logging out
+                document.getElementById('my-groups-list').innerHTML = `
+                    <li id="no-groups-message">
+                        <span data-lang="tr">${translations.tr.collaborationNoGroups}</span>
+                        <span data-lang="en" class="hidden">${translations.en.collaborationNoGroups}</span>
+                    </li>
+                `;
+                updateTextContent(); // Ensure "no groups" message is in correct language
+            }
+            // Update isLoggedIn global variable to reflect email/password login status
+            isLoggedIn = isTrulyLoggedIn;
+        }
+
+        // Function to show the authentication modal
+        window.showAuthModal = function(mode) { // Made global
+            const authModal = document.getElementById('authModal');
+            const authError = document.getElementById('authError');
+            const authEmail = document.getElementById('authEmail'); // Updated ID
+            const authPassword = document.getElementById('authPassword');
+
+            authError.classList.add('hidden');
+            authEmail.value = ''; // Updated ID
+            authPassword.value = '';
+
+            currentAuthMode = mode;
+            updateTextContent(); // Update modal text based on mode
+
+            authModal.classList.remove('hidden');
+            setTimeout(() => authModal.classList.add('visible'), 10);
+            document.body.style.overflow = "hidden";
+        }
+
+        // Function to toggle between login and register views within the modal
+        window.toggleAuthMode = function(mode) { // Made global
+            currentAuthMode = mode;
+            updateTextContent();
+        }
+
+        // Function to handle login/register submission (simulated for UI)
+        window.handleAuthSubmit = async function() { // Made global, now async
+            const email = document.getElementById('authEmail').value.trim(); // Updated ID
+            const password = document.getElementById('authPassword').value.trim();
+            const authError = document.getElementById('authError');
+
+            authError.classList.add('hidden');
+
+            // Hata ayıklama için e-posta ve şifre uzunluklarını konsola yazdırın
+            console.log("Firebase Auth giriş denemesi:");
+            console.log(`E-posta uzunluğu: ${email.length}`);
+            console.log(`Şifre uzunluğu: ${password.length}`);
+
+
+            if (email === '' || password === '') {
+                authError.innerHTML = `<span data-lang="tr">${translations.tr.authEmptyFields}</span><span data-lang="en" class="hidden">${translations.en.authEmptyFields}</span>`;
+                authError.classList.remove('hidden');
+                updateTextContent(); // Hata mesajı için dili yeniden uygulayın
+                return;
+            }
+
+            try {
+                if (currentAuthMode === 'login') {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    window.closeAuthModal(); // Global closeAuthModal'ı çağırın
+                    window.showCustomAlert(`Giriş başarılı! Hoş geldiniz, ${email}.`); // Hoş geldin mesajını gösterin
+                } else { // 'register'
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    window.closeAuthModal(); // Global closeAuthModal'ı çağırın
+                    window.showCustomAlert(`Kayıt başarılı! Hoş geldiniz, ${email}.`); // Hoş geldin mesajını gösterin
+                }
+                // Başarılı kimlik doğrulama girişiminden sonra mevcut kullanıcıyı günlüğe kaydedin
+                console.log("Firebase Auth başarılı. Mevcut kullanıcı:", auth.currentUser);
+            } catch (error) {
+                console.error("Firebase Kimlik Doğrulama Hatası (Kod: " + error.code + ", Mesaj: " + error.message + "):", error); // Daha detaylı konsol günlüğü
+                let errorMessage = translations[currentLanguage].loginError; 
+                
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = translations[currentLanguage].registerUserExists;
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = translations[currentLanguage].authInvalidEmail;
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = translations[currentLanguage].authWeakPassword;
+                        break;
+                    case 'auth/user-not-found':
+                        errorMessage = translations[currentLanguage].authUserNotFound;
+                        break;
+                    case 'auth/wrong-password':
+                    case 'auth/invalid-credential': // Her ikisi de yanlış giriş kimlik bilgilerini gösterir
+                        errorMessage = translations[currentLanguage].authInvalidCredentials; // Daha genel "geçersiz kimlik bilgileri" kullanın
+                        break;
+                    case 'auth/operation-not-allowed': // Devre dışı bırakılmış oturum açma yöntemi için özel hata
+                        errorMessage = "Kimlik doğrulama yöntemi etkin değil. Lütfen Firebase projenizde e-posta/şifre ile kimlik doğrulamayı etkinleştirin.";
+                        break;
+                    default:
+                        errorMessage = `${translations[currentLanguage].authGenericFirebaseError} ${error.message}`;
+                }
+                authError.innerHTML = `<span data-lang="tr">${errorMessage}</span><span data-lang="en" class="hidden">${errorMessage}</span>`;
+                authError.classList.remove('hidden');
+                updateTextContent(); // Hata mesajı için dili yeniden uygulayın
+            }
+        }
+
+        // Logout function
+        window.logout = async function() { // Made global
+            try {
+                if (auth && auth.currentUser) {
+                    await signOut(auth);
+                }
+                console.log('Kullanıcı çıkış yaptı.');
+                window.showCustomAlert(translations[currentLanguage].logoutSuccess); // Global showCustomAlert'ı çağırın
+            } catch (error) {
+                console.error("Çıkış yaparken hata oluştu:", error);
+                window.showCustomAlert("Çıkış yaparken hata oluştu."); // Global showCustomAlert'ı çağırın
+            }
+        }
+
+        // Close authentication modal
+        window.closeAuthModal = function() { // Made global
+            document.getElementById('authModal').classList.remove('visible');
+            setTimeout(() => {
+                document.getElementById('authModal').classList.add('hidden');
+                document.body.style.overflow = "auto";
+            }, 300);
+        }
+
+        // Show section function for index.html (now handles all sections including dashboard features)
+        window.showSection = function(id) { // Made global
+            const mainSections = ['anasayfa', 'hakkimizda', 'iletisim'];
+            const dashboardFeatures = ['summarizer-feature', 'keyword-extractor-feature', 'translator-feature', 'deep-research-feature', 'citation-generator-feature', 'collaboration-feature', 'academic-search-feature'];
+
+            document.querySelectorAll('.content > div').forEach(sec => sec.classList.add('hidden'));
+
+            const isMainSection = mainSections.includes(id);
+            const isDashboardSection = id === 'dashboard-section' || dashboardFeatures.includes(id);
+
+            const homeBtnHeader = document.querySelector('.header-nav-links button[onclick*="anasayfa"]');
+            const aboutBtnHeader = document.querySelector('.header-nav-links button[onclick*="hakkimizda"]');
+            const contactBtnHeader = document.querySelector('.header-nav-links button[onclick*="iletisim"]');
+
+            const homeBtnNav = document.querySelector('nav button[onclick*="anasayfa"]');
+            const aboutBtnNav = document.querySelector('nav button[onclick*="hakkimizda"]');
+            const contactBtnNav = document.querySelector('nav button[onclick*="iletisim"]');
+            const dashboardBtnNav = document.getElementById('dashboard-nav-btn-mobile');
+
+            const dashboardSection = document.getElementById('dashboard-section');
+            const dashboardWelcomeMessage = document.getElementById('dashboard-welcome-message');
+
+            if (isDashboardSection) {
+                document.body.classList.add('dashboard-active-bg');
+
+                homeBtnHeader?.classList.add('hidden');
+                aboutBtnHeader?.classList.add('hidden');
+                contactBtnHeader?.classList.add('hidden');
+
+                homeBtnNav?.classList.add('hidden');
+                aboutBtnNav?.classList.add('hidden');
+                contactBtnNav?.classList.add('hidden');
+
+                if (isLoggedIn) { // Yalnızca gerçekten giriş yapıldıysa kontrol paneli gezinti düğmesini gösterin
+                    dashboardBtnNav?.classList.remove('hidden');
+                }
+
+                if (dashboardSection) {
+                    dashboardSection.classList.remove('hidden');
+                    document.querySelectorAll('.dashboard-feature').forEach(feature => feature.classList.add('hidden'));
+
+                    if (id === 'dashboard-section') {
+                        dashboardWelcomeMessage?.classList.remove('hidden');
+                    } else if (dashboardFeatures.includes(id)) {
+                        dashboardWelcomeMessage?.classList.add('hidden');
+                        document.getElementById(id).classList.remove('hidden');
+                    }
+                }
+            } else if (isMainSection) {
+                document.body.classList.remove('dashboard-active-bg');
+
+                homeBtnHeader?.classList.remove('hidden');
+                aboutBtnHeader?.classList.remove('hidden');
+                contactBtnHeader?.classList.remove('hidden');
+
+                homeBtnNav?.classList.remove('hidden');
+                aboutBtnNav?.classList.remove('hidden');
+                contactBtnNav?.classList.remove('hidden');
+
+                dashboardBtnNav?.classList.add('hidden');
+
+                dashboardWelcomeMessage?.classList.add('hidden');
+
+                const requestedSection = document.getElementById(id);
+                if (requestedSection) {
+                    requestedSection.classList.remove('hidden');
+                }
+            } else {
+                document.body.classList.remove('dashboard-active-bg');
+                const requestedSection = document.getElementById(id);
+                if (requestedSection) {
+                    requestedSection.classList.remove('hidden');
+                }
+                homeBtnHeader?.classList.remove('hidden');
+                aboutBtnHeader?.classList.remove('hidden');
+                contactBtnHeader?.classList.remove('hidden');
+                dashboardBtnNav?.classList.add('hidden');
+                dashboardWelcomeMessage?.classList.add('hidden');
+            }
+        }
+
+        // New function to handle dashboard feature navigation (from dashboard-nav buttons)
+        window.showDashboardFeature = function(featureId) { // Made global
+            if (!isLoggedIn) {
+                window.showCustomAlert(translations[currentLanguage].loginRequired); // Global showCustomAlert'ı çağırın
+                return;
+            }
+            window.showSection(featureId); // Global showSection'ı çağırın
+        }
+
+        // Listen for Enter keypress on password field in Auth Modal
+        document.getElementById('authPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                window.handleAuthSubmit(); // Global handleAuthSubmit'ı çağırın
+            }
+        });
+        
+        // Listen for Enter keypress on email field in Auth Modal
+        document.getElementById('authEmail').addEventListener('keypress', function(e) { // Updated ID
+            if (e.key === 'Enter') {
+                document.getElementById('authPassword').focus();
+            }
+        });
+
+        // Theme Toggle (Dark/Light Mode)
+        window.toggleTheme = function() { // Made global
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            const themeIcon = document.querySelector('#theme-toggle-icon svg path');
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.setAttribute('d', 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z');
+            } else {
+                themeIcon.setAttribute('d', 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm0 18a8.25 8.25 0 1 1 0-16.5 8.25 8.25 0 0 1 0 16.5zM12 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('index.html: DOMContentLoaded event fired.');
+            const mainContent = document.getElementById('main-content');
+            console.log('Firebase Config:', firebaseConfig); // Kullanılan Firebase yapılandırmasını günlüğe kaydet
+
+            // Firebase'i Başlat
+            if (Object.keys(firebaseConfig).length > 0) {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // ÖNCE kimlik doğrulama durumu değişikliklerini dinle
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        currentFirebaseUserId = user.uid;
+                        // Anonim kullanıcı değilse VE e-postası varsa giriş yapmıştır
+                        isLoggedIn = !user.isAnonymous && !!user.email;
+                        console.log("Kullanıcı giriş yaptı:", currentFirebaseUserId, "Anonim:", user.isAnonymous, "E-posta:", user.email || 'N/A');
+                        if (isLoggedIn) {
+                            // Anonim olmayan bir kullanıcı giriş yaparsa, grupları getirdiğimizden emin olun
+                            window.fetchGroups();
+                        }
+                    } else {
+                        currentFirebaseUserId = null;
+                        isLoggedIn = false;
+                        console.log("Hiçbir kullanıcı giriş yapmadı.");
+                    }
+                    updateAuthUI(); // Kimlik doğrulama durumu değiştiğinde her zaman UI'yi güncelleyin
+                });
+
+                // Uygulama yüklendiğinde anonim oturum açmayı hemen deneyin.
+                // Bu, açıkça giriş yapılmasa bile bir kullanıcı kimliği almak içindir.
+                try {
+                    // Bu bölüm, yalnızca henüz kimlik doğrulanmamışsa anonim oturum açmayı dener.
+                    // Mevcut anonim olmayan oturumlarla yeniden kimlik doğrulama sorunlarını önlemek için bu çok önemlidir.
+                    if (!auth.currentUser) {
+                         // Henüz hiçbir kullanıcı kimlik doğrulanmamışsa yalnızca anonim oturum açmayı deneyin.
+                         await signInAnonymously(auth);
+                         console.log("İlk deneme: Anonim olarak giriş yapıldı.");
+                    } else if (auth.currentUser.isAnonymous) {
+                         // Zaten anonim olarak giriş yapılmışsa, yeniden denemeye gerek yok.
+                         console.log("Zaten anonim olarak giriş yapıldı.");
+                    } else {
+                         // Zaten anonim olmayan bir yöntemle giriş yapılmışsa, anonim oturum açmaya gerek yok.
+                         console.log("Kullanıcı zaten anonim olmayan bir yöntemle kimlik doğrulanmış, anonim oturum açma atlanıyor.");
+                    }
+                } catch (error) {
+                    console.error("Anonim oturum açma denemesi başarısız oldu:", error);
+                    // Yaygın kimlik doğrulama sorunları için belirli hata mesajları sağlayın
+                    if (error.code === 'auth/admin-restricted-operation') {
+                        window.showCustomAlert(translations[currentLanguage].authAdminRestrictedAnonymous);
+                    } else if (error.code === 'auth/custom-token-mismatch') {
+                        window.showCustomAlert(translations[currentLanguage].authCustomTokenError);
+                    } else {
+                        // Diğer Firebase kimlik doğrulama hataları için genel yedek
+                        window.showCustomAlert(`${translations[currentLanguage].authGenericFirebaseError} ${error.message}`);
+                    }
+                }
+
+            } else {
+                console.warn("Firebase yapılandırması bulunamadı. Firebase özellikleri olmadan çalıştırılıyor.");
+                isLoggedIn = false;
+                updateAuthUI();
+            }
+
+            mainContent.style.display = "block";
+            setTimeout(() => mainContent.classList.add('loaded'), 50);
+            updateTextContent();
+        });
+        
+        // Chat Bot Open/Close Function
+        window.toggleChatBox = function() { // Made global
+            const chatBox = document.getElementById('ai-chat-box');
+            chatBox.classList.toggle('open');
+        }
+
+        // Gemini API Integration
+        // YOUR ACTUAL GEMINI API KEY GOES HERE!
+        // Make sure not to share this key with anyone.
+        const GEMINI_API_KEY = ""; // Canvas will automatically provide this in runtime
+
+        // Utility function for exponential backoff
+        async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return response;
+                    }
+                    // If not ok, but not a network error, might be a server-side issue.
+                    // Retry for 5xx errors or specific 429 (Too Many Requests)
+                    if (response.status >= 500 || response.status === 429) {
+                        console.warn(`Deneme ${i + 1} ${response.status} durumuyla başarısız oldu. ${delay}ms içinde tekrar deniyor...`);
+                        await new Promise(res => setTimeout(res, delay));
+                        delay *= 2; // Üstel geri çekilme
+                    } else {
+                        // Diğer istemci hataları (4xx) için tekrar denemeyin, sadece fırlatın.
+                        const errorData = await response.json();
+                        throw new Error(`API Hatası: ${response.status} - ${JSON.stringify(errorData)}`);
+                    }
+                } catch (error) {
+                    if (i === retries - 1) {
+                        throw error; // Son yeniden denemeden sonra tekrar fırlat
+                    }
+                    console.warn(`Deneme ${i + 1} ağ hatası. ${delay}ms içinde tekrar deniyor...`, error);
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2; // Üstel geri çekilme
+                }
+            }
+        }
+
+        // Chat Bot Message Sending Function
+        window.sendMessage = async function() { // Made global
+            if (!isLoggedIn) {
+                window.showCustomAlert(translations[currentLanguage].loginRequired); 
+                return;
+            }
+
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+            const message = chatInput.value;
+            
+            if (message.trim() === '') return;
+            
+            chatMessages.innerHTML += `<div class="user-message">${message}</div>`;
+            chatInput.value = '';
+            
+            try {
+                const payload = {
+                    "contents": [
+                        {
+                            "parts": [
+                                {
+                                    "text": message
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    chatMessages.innerHTML += `<div class="ai-message">${aiResponse}</div>`;
+                } else {
+                    console.error("API Hatası:", data);
+                    chatMessages.innerHTML += `<div class="ai-message error">${translations[currentLanguage].chatApiError}</div>`;
+                }
+
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                console.error("Gemini API isteği başarısız oldu:", error);
+                chatMessages.innerHTML += `<div class="ai-message error">${translations[currentLanguage].chatNetworkError}</div>`;
+            }
+        }
+        
+        // Listen for Enter keypress on chat input field
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                window.sendMessage(); 
+            }
+        });
+
+        // Article Summarizer Function
+        window.summarizeArticle = async function() { 
+            const articleInput = document.getElementById('article-input');
+            const summaryOutput = document.getElementById('summary-output');
+            const articleText = articleInput.value.trim();
+
+            if (articleText === '') {
+                summaryOutput.textContent = translations[currentLanguage].summarizerEmpty;
+                return;
+            }
+
+            summaryOutput.textContent = translations[currentLanguage].summarizerLoading;
+
+            try {
+                const prompt = `Summarize the following text in ${currentLanguage === 'tr' ? 'Turkish' : 'English'}:\n\n${articleText}`;
+                const payload = {
+                    "contents": [
+                        {
+                            "parts": [
+                                {
+                                    "text": prompt
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                    summaryOutput.textContent = data.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("API özetleme hatası:", data);
+                    summaryOutput.textContent = translations[currentLanguage].summarizerErrorApi;
+                }
+            } catch (error) {
+                console.error("Makale özetleme isteği başarısız oldu:", error);
+                summaryOutput.textContent = translations[currentLanguage].summarizerErrorNetwork;
+            }
+        }
+
+        // Keyword Extractor Function
+        window.extractKeywords = async function() { 
+            const keywordInput = document.getElementById('keyword-input');
+            const keywordsOutput = document.getElementById('keywords-output');
+            const textToExtract = keywordInput.value.trim();
+
+            if (textToExtract === '') {
+                keywordsOutput.textContent = translations[currentLanguage].keywordExtractorEmpty;
+                return;
+            }
+
+            keywordsOutput.textContent = translations[currentLanguage].keywordExtractorLoading;
+
+            try {
+                const prompt = `Extract the most important 5-10 keywords from the following text as a comma-separated list in ${currentLanguage === 'tr' ? 'Turkish' : 'English'}:\n\n${textToExtract}`;
+                const payload = {
+                    "contents": [
+                        {
+                            "parts": [
+                                {
+                                    "text": prompt
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                    keywordsOutput.textContent = data.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("API anahtar kelime çıkarma hatası:", data);
+                    keywordsOutput.textContent = translations[currentLanguage].keywordExtractorApi;
+                }
+            } catch (error) {
+                console.error("Anahtar kelime çıkarma isteği başarısız oldu:", error);
+                keywordsOutput.textContent = translations[currentLanguage].keywordExtractorNetwork;
+            }
+        }
+
+        // Text Translator Function
+        window.translateText = async function() { 
+            const textToTranslate = document.getElementById('text-to-translate').value.trim();
+            const targetLanguageCode = document.getElementById('target-language').value;
+            const translationOutput = document.getElementById('translation-output');
+
+            if (textToTranslate === '') {
+                translationOutput.textContent = translations[currentLanguage].translatorEmpty;
+                return;
+            }
+
+            translationOutput.textContent = translations[currentLanguage].translatorLoading;
+
+            try {
+                const prompt = `Translate the following text to ${targetLanguageCode}:\n\n${textToTranslate}`;
+                const payload = {
+                    "contents": [
+                        {
+                            "parts": [
+                                {
+                                    "text": prompt
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                    translationOutput.textContent = data.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("API çeviri hatası:", data);
+                    translationOutput.textContent = translations[currentLanguage].translatorErrorApi;
+                }
+            } catch (error) {
+                console.error("Çeviri isteği başarısız oldu:", error);
+                translationOutput.textContent = translations[currentLanguage].translatorErrorNetwork;
+            }
+        }
+
+        // Deep Research Function
+        window.performDeepResearch = async function() { 
+            const researchQueryInput = document.getElementById('research-query-input');
+            const researchOutput = document.getElementById('research-output');
+            const queryText = researchQueryInput.value.trim();
+
+            if (queryText === '') {
+                researchOutput.textContent = translations[currentLanguage].deepResearchEmpty;
+                return;
+            }
+
+            researchOutput.textContent = translations[currentLanguage].deepResearchLoading;
+
+            try {
+                const prompt = `Perform a deep research on "${queryText}". Provide a comprehensive summary of the findings, including key facts, main points, and any relevant historical or future context. Structure the response with clear headings and bullet points. Write the response in ${currentLanguage === 'tr' ? 'Turkish' : 'English'}.`;
+                const payload = {
+                    "contents": [
+                        {
+                            "parts": [
+                                {
+                                    "text": prompt
+                                }
+                            ]
+                        }
+                    ]
+                };
+                
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                    researchOutput.textContent = data.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("API derin araştırma hatası:", data);
+                    researchOutput.textContent = translations[currentLanguage].deepResearchErrorApi;
+                }
+            } catch (error) {
+                console.error("Derin araştırma isteği başarısız oldu:", error);
+                researchOutput.textContent = translations[currentLanguage].deepResearchNetwork;
+            }
+        }
+
+        // Automatic Citation Generator Function
+        window.generateCitation = async function() { 
+            const citationInput = document.getElementById('citation-input');
+            const citationFormat = document.getElementById('citation-format').value;
+            const citationOutput = document.getElementById('citation-output');
+            const citationText = citationInput.value.trim();
+
+            if (citationText === '') {
+                citationOutput.textContent = translations[currentLanguage].citationGeneratorEmpty;
+                return;
+            }
+
+            citationOutput.textContent = translations[currentLanguage].citationGeneratorLoading;
+
+            try {
+                // Verilen metinden alıntı ayrıntılarını çıkarmak için güncellenmiş istem
+                const prompt = `From the following text, infer the necessary information (e.g., author, title, publication year, source) and generate a full citation in ${citationFormat} style. Provide only the citation, no extra text:\n\n${citationText}`;
+                const payload = {
+                    "contents": [
+                        {
+                            "parts": [
+                                {
+                                    "text": prompt
+                                }
+                            ]
+                        }
+                    ]
+                };
+                
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                    citationOutput.textContent = data.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("API alıntı oluşturma hatası:", data);
+                    citationOutput.textContent = translations[currentLanguage].citationGeneratorErrorApi;
+                }
+            } catch (error) {
+                console.error("Alıntı oluşturma isteği başarısız oldu:", error);
+                citationOutput.textContent = translations[currentLanguage].citationGeneratorNetwork;
+            }
+        }
+
+        // Firebase Firestore Grup Yönetimi Fonksiyonları
+        // Rastgele bir grup kodu oluşturmak için fonksiyon
+        function generateGroupCode(length = 6) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+        window.createGroup = async function() { 
+            if (!db || !currentFirebaseUserId) {
+                window.showCustomAlert(translations[currentLanguage].loginRequired); 
+                return;
+            }
+
+            const newGroupNameInput = document.getElementById('new-group-name');
+            const groupName = newGroupNameInput.value.trim();
+
+            if (groupName === '') {
+                window.showCustomAlert(translations[currentLanguage].collaborationGroupNameEmpty); 
+                return;
+            }
+
+            try {
+                const groupCode = generateGroupCode();
+                const groupsCollectionRef = collection(db, `artifacts/${appId}/public/data/groups`); 
+                await addDoc(groupsCollectionRef, {
+                    name: groupName,
+                    groupCode: groupCode, 
+                    ownerId: currentFirebaseUserId,
+                    members: [currentFirebaseUserId], 
+                    createdAt: new Date()
+                });
+                newGroupNameInput.value = '';
+                window.showCustomAlert(translations[currentLanguage].collaborationGroupCreated + groupCode); 
+                window.fetchGroups(); 
+            } catch (error) {
+                console.error("Grup oluşturulurken hata oluştu:", error);
+                window.showCustomAlert("Grup oluşturulurken hata oluştu."); 
+            }
+        }
+
+        window.joinGroup = async function() { 
+            if (!db || !currentFirebaseUserId) {
+                window.showCustomAlert(translations[currentLanguage].loginRequired);
+                return;
+            }
+
+            const joinGroupCodeInput = document.getElementById('join-group-code');
+            const groupCode = joinGroupCodeInput.value.trim().toUpperCase(); 
+
+            if (groupCode === '') {
+                window.showCustomAlert(translations[currentLanguage].collaborationGroupCodeEmpty);
+                return;
+            }
+
+            try {
+                const groupsCollectionRef = collection(db, `artifacts/${appId}/public/data/groups`); 
+                const q = query(groupsCollectionRef, where("groupCode", "==", groupCode));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    window.showCustomAlert(translations[currentLanguage].collaborationGroupNotFound);
+                    return;
+                }
+
+                const groupDoc = querySnapshot.docs[0];
+                const groupId = groupDoc.id;
+                const groupData = groupDoc.data();
+
+                if (groupData.members && groupData.members.includes(currentFirebaseUserId)) {
+                    window.showCustomAlert(translations[currentLanguage].collaborationAlreadyMember);
+                    return;
+                }
+
+                // Mevcut kullanıcıyı üyeler dizisine ekle
+                await updateDoc(doc(db, `artifacts/${appId}/public/data/groups`, groupId), { 
+                    members: arrayUnion(currentFirebaseUserId)
+                });
+
+                joinGroupCodeInput.value = '';
+                window.showCustomAlert(translations[currentLanguage].collaborationGroupJoined);
+                window.fetchGroups(); 
+            } catch (error) {
+                console.error("Gruba katılırken hata oluştu:", error);
+                window.showCustomAlert("Gruba katılırken hata oluştu.");
+            }
+        }
+
+        window.fetchGroups = async function() { 
+            if (!db || !currentFirebaseUserId) {
+                document.getElementById('my-groups-list').innerHTML = `
+                    <li id="no-groups-message">
+                        <span data-lang="tr">${translations.tr.collaborationNoGroups}</span>
+                        <span data-lang="en" class="hidden">${translations.en.collaborationNoGroups}</span>
+                    </li>
+                `;
+                updateTextContent(); 
+                return;
+            }
+
+            const myGroupsList = document.getElementById('my-groups-list');
+            myGroupsList.innerHTML = ''; 
+
+            try {
+                const groupsCollectionRef = collection(db, `artifacts/${appId}/public/data/groups`); 
+                // Geçerli kullanıcının üye olduğu grupları sorgula
+                const q = query(groupsCollectionRef, where("members", "array-contains", currentFirebaseUserId));
+                
+                // Gerçek zamanlı güncellemeler için onSnapshot kullanın
+                onSnapshot(q, (snapshot) => {
+                    myGroupsList.innerHTML = ''; 
+                    if (snapshot.empty) {
+                        myGroupsList.innerHTML = `
+                            <li id="no-groups-message">
+                                <span data-lang="tr">${translations.tr.collaborationNoGroups}</span>
+                                <span data-lang="en" class="hidden">${translations.en.collaborationNoGroups}</span>
+                            </li>
+                        `;
+                        updateTextContent(); 
+                    } else {
+                        snapshot.forEach((groupDoc) => {
+                            const groupData = groupDoc.data();
+                            const groupId = groupDoc.id;
+                            const isOwner = groupData.ownerId === currentFirebaseUserId;
+                            const listItem = document.createElement('li');
+                            listItem.innerHTML = `
+                                <span>${groupData.name} (Kod: <strong>${groupData.groupCode}</strong>)</span>
+                                <div class="group-actions">
+                                    <button class="join-code-btn" onclick="window.copyToClipboard('${groupData.groupCode}')">Kodu Kopyala</button>
+                                    ${isOwner ? `<button onclick="window.deleteGroup('${groupId}')">Sil</button>` : `<button onclick="window.leaveGroup('${groupId}')">Ayrıl</button>`}
+                                </div>
+                            `;
+                            myGroupsList.appendChild(listItem);
+                        });
+                    }
+                    updateTextContent(); 
+                }, (error) => {
+                    console.error("Gruplar gerçek zamanlı olarak getirilirken hata oluştu:", error);
+                    myGroupsList.innerHTML = `<li style="color: red;" data-lang="tr">${translations.tr.collaborationFetchGroupsError}</li><li style="color: red;" data-lang="en" class="hidden">${translations.en.collaborationFetchGroupsError}</li>`;
+                    updateTextContent(); 
+                });
+            } catch (error) {
+                console.error("Grup dinleyicisi kurulurken hata oluştu:", error);
+                myGroupsList.innerHTML = `<li style="color: red;" data-lang="tr">${translations.tr.collaborationFetchGroupsError}</li><li style="color: red;" data-lang="en" class="hidden">${translations.en.collaborationFetchGroupsError}</li>`;
+                updateTextContent(); 
+            }
+        }
+
+        window.deleteGroup = async function(groupId) { 
+            if (!db || !currentFirebaseUserId) {
+                window.showCustomAlert(translations[currentLanguage].loginRequired);
+                return;
+            }
+
+            try {
+                const groupDocRef = doc(db, `artifacts/${appId}/public/data/groups`, groupId); 
+                const groupDocSnapshot = await getDoc(groupDocRef);
+                const groupData = groupDocSnapshot.data();
+
+                if (groupData.ownerId !== currentFirebaseUserId) {
+                    window.showCustomAlert("Sadece sahip olduğunuz grupları silebilirsiniz."); 
+                    return;
+                }
+
+                await deleteDoc(groupDocRef);
+                window.showCustomAlert(translations[currentLanguage].collaborationGroupDeleted);
+            } catch (error) {
+                console.error("Grup silinirken hata oluştu:", error);
+                window.showCustomAlert(translations[currentLanguage].collaborationDeleteGroupError);
+            }
+        }
+
+        window.leaveGroup = async function(groupId) { 
+            if (!db || !currentFirebaseUserId) {
+                window.showCustomAlert(translations[currentLanguage].loginRequired);
+                return;
+            }
+
+            try {
+                const groupDocRef = doc(db, `artifacts/${appId}/public/data/groups`, groupId); 
+                await updateDoc(groupDocRef, {
+                    members: arrayRemove(currentFirebaseUserId)
+                });
+                window.showCustomAlert(translations[currentLanguage].collaborationGroupLeft);
+            } catch (error) {
+                console.error("Gruptan ayrılırken hata oluştu:", error);
+                window.showCustomAlert(translations[currentLanguage].collaborationLeaveGroupError);
+            }
+        }
+
+        window.copyToClipboard = function(text) { 
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                window.showCustomAlert(translations[currentLanguage].copySuccess);
+            } catch (err) {
+                console.error('Metin kopyalanamadı: ', err);
+                window.showCustomAlert(translations[currentLanguage].copyFail);
+            }
+            document.body.removeChild(textArea);
+        };
+
+
+        // Academic Search Function (now uses google_search via backend Python tool)
+        window.performAcademicSearch = async function() { 
+            const academicQueryInput = document.getElementById('academic-query-input');
+            const academicSearchOutput = document.getElementById('academic-search-output');
+            const queryText = academicQueryInput.value.trim();
+
+            if (queryText === '') {
+                academicSearchOutput.textContent = translations[currentLanguage].academicSearchEmpty;
+                return;
+            }
+
+            academicSearchOutput.textContent = translations[currentLanguage].academicSearchLoading;
+
+            try {
+                const prompt = `Perform an academic search for "${queryText}". Provide a summary of the top 5 relevant results including their titles, snippets, and URLs. Present this information clearly with bullet points.`;
+                
+                const payload = {
+                    "contents": [
+                        {
+                            "parts": [
+                                {
+                                    "text": prompt
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+                    const searchResultsText = data.candidates[0].content.parts[0].text;
+                    let resultsHtml = `<h4>${translations[currentLanguage].academicSearchResults}</h4><ul>`;
+                    
+                    const lines = searchResultsText.split('\n').filter(line => line.trim() !== '');
+                    let hasResults = false;
+                    for (let i = 0; i < lines.length; i++) { 
+                        const line = lines[i];
+                        if (line.startsWith('* **Title:**')) {
+                            hasResults = true;
+                            const title = line.replace('* **Title:** ', '').trim();
+                            let snippet = '';
+                            let url = '';
+
+                            if (lines[i + 1] && lines[i + 1].startsWith('  * **Snippet:**')) {
+                                snippet = lines[i + 1].replace('  * **Snippet:** ', '').trim();
+                                i++; 
+                            }
+                            if (lines[i + 1] && lines[i + 1].startsWith('  * **URL:**')) {
+                                url = lines[i + 1].replace('  * **URL:** ', '').trim();
+                                i++; 
+                            }
+                            
+                            resultsHtml += `<li><strong>${title}</strong>: ${snippet} <a href="${url}" target="_blank">(Kaynak)</a></li>`;
+                        } else if (line.startsWith('Title:')) { 
+                            hasResults = true;
+                            const title = line.replace('Title:', '').trim();
+                            let snippet = '';
+                            let url = '';
+
+                            if (lines[i + 1] && lines[i + 1].startsWith('Snippet:')) {
+                                snippet = lines[i + 1].replace('Snippet:', '').trim();
+                                i++; 
+                            }
+                            if (lines[i + 1] && lines[i + 1].startsWith('URL:')) {
+                                url = lines[i + 1].replace('URL:', '').trim();
+                                i++; 
+                            }
+                            resultsHtml += `<li><strong>${title}</strong>: ${snippet} <a href="${url}" target="_blank">(Kaynak)</a></li>`;
+                        }
+                    }
+
+                    if (!hasResults) {
+                        academicSearchOutput.textContent = translations[currentLanguage].academicSearchNoResults;
+                    } else {
+                        resultsHtml += `</ul>`;
+                        academicSearchOutput.innerHTML = resultsHtml;
+                    }
+
+                } else {
+                    console.error("API akademik arama hatası:", data);
+                    academicSearchOutput.textContent = translations[currentLanguage].academicSearchErrorApi;
+                }
+            } catch (error) {
+                console.error("Akademik arama isteği başarısız oldu:", error);
+                academicSearchOutput.textContent = translations[currentLanguage].academicSearchNetwork;
+            }
+        }
+
+        // Function to open the navigation menu
+        window.openNav = function() { 
+            document.querySelector('nav').classList.add('open');
+            document.getElementById('overlay').classList.add('visible');
+        }
+
+        // Function to close the navigation menu
+        window.closeNav = function() { 
+            document.querySelector('nav').classList.remove('open');
+            document.getElementById('overlay').classList.remove('visible');
+        }
+    </script>
+</body>
+</html>
