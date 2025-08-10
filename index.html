@@ -2574,7 +2574,7 @@
         // Gemini API Integration
         // YOUR ACTUAL GEMINI API KEY GOES HERE!
         // Make sure not to share this key with anyone.
-        const GEMINI_API_KEY = ${{ secrets.GOOGLE_API_KEY }}; // Canvas will automatically provide this in runtime
+        const GEMINI_API_KEY = "${{ secrets.GOOGLE_API_KEY }}"; // Canvas will automatically provide this in runtime
 
         // Utility function for exponential backoff
         async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
